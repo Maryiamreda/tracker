@@ -19,6 +19,8 @@ export const usersTable = pgTable("users", {
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
     receipts: many(receiptTable),
+    tags: many(tagsTable),
+
 }));
 
 
@@ -58,8 +60,12 @@ export const tagsTable = pgTable("tags", {
 
 })
 
-export const tagsRelations = relations(tagsTable, ({ many }) => ({
+export const tagsRelations = relations(tagsTable, ({ many, one }) => ({
     receiptToGroups: many(receiptToTagsTable),
+    owner: one(usersTable, {
+        fields: [tagsTable.ownerId],
+        references: [usersTable.id],
+    })
 }));
 
 
