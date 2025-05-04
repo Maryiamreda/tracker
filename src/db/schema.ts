@@ -44,47 +44,47 @@ export const receiptRelations = relations(receiptTable, ({ one, many }) => ({
         fields: [receiptTable.ownerId],
         references: [usersTable.id],
     }),
-    receiptToTabs: many(receiptToTabsTable),
+    receiptToTags: many(receiptToTagsTable),
 }));
 
 
-export const tabsTable = pgTable("tabs", {
+export const tagsTable = pgTable("tags", {
     id: serial("id").primaryKey(),
     name: varchar({ length: 255 }).notNull(),
     icon: varchar("icon", { length: 50 }),
-    isEssential: boolean("is_essential").default(false).notNull(), // Flag to mark essential tabs
+    isEssential: boolean("is_essential").default(false).notNull(), // Flag to mark essential tags
     ownerId: integer("owner_id").references(() => usersTable.id),
     ...timestamps
 
 })
 
-export const tabsRelations = relations(tabsTable, ({ many }) => ({
-    receiptToGroups: many(receiptToTabsTable),
+export const tagsRelations = relations(tagsTable, ({ many }) => ({
+    receiptToGroups: many(receiptToTagsTable),
 }));
 
 
-export const receiptToTabsTable = pgTable(
-    "receipt_to_tabs",
+export const receiptToTagsTable = pgTable(
+    "receipt_to_tags",
     {
         receiptId: integer("receipt_id")
             .notNull()
             .references(() => receiptTable.id),
-        tabId: integer("tab_id")
+        tagId: integer("tag_id")
             .notNull()
-            .references(() => tabsTable.id),
+            .references(() => tagsTable.id),
     },
     (t) => ({
-        pk: primaryKey({ columns: [t.receiptId, t.tabId] })
+        pk: primaryKey({ columns: [t.receiptId, t.tagId] })
     })
 );
 
-export const receiptToTabsRelations = relations(receiptToTabsTable, ({ one }) => ({
+export const receiptToTagsRelations = relations(receiptToTagsTable, ({ one }) => ({
     receipt: one(receiptTable, {
-        fields: [receiptToTabsTable.receiptId],
+        fields: [receiptToTagsTable.receiptId],
         references: [receiptTable.id],
     }),
-    tab: one(tabsTable, {
-        fields: [receiptToTabsTable.tabId],
-        references: [tabsTable.id],
+    tag: one(tagsTable, {
+        fields: [receiptToTagsTable.tagId],
+        references: [tagsTable.id],
     }),
 }));
