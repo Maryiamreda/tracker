@@ -1,6 +1,12 @@
 import { relations } from "drizzle-orm";
 import { integer, pgTable, varchar, pgSchema, json, serial, primaryKey, boolean, timestamp } from "drizzle-orm/pg-core";
 
+// columns.helpers.ts
+const timestamps = {
+    updated_at: timestamp(),
+    created_at: timestamp().defaultNow().notNull(),
+    deleted_at: timestamp(),
+}
 
 
 export const usersTable = pgTable("users", {
@@ -27,7 +33,7 @@ export const receiptTable = pgTable("receipt", {
         notes?: string
     }>>().default([]),
     ownerId: integer("owner_id").references(() => usersTable.id),
-
+    ...timestamps
 
 })
 
@@ -61,6 +67,7 @@ export const tabsTable = pgTable("tabs", {
     name: varchar({ length: 255 }).notNull(),
     icon: varchar("icon", { length: 50 }),
     isEssential: boolean("is_essential").default(false).notNull(), // Flag to mark essential tabs
+    ...timestamps
 
 })
 
