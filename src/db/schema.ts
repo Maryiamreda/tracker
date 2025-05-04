@@ -1,5 +1,7 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, varchar, pgSchema, json, serial, primaryKey } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, pgSchema, json, serial, primaryKey, boolean, timestamp } from "drizzle-orm/pg-core";
+
+
 
 export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
@@ -25,6 +27,7 @@ export const receiptTable = pgTable("receipt", {
         notes?: string
     }>>().default([]),
     ownerId: integer("owner_id").references(() => usersTable.id),
+
 
 })
 
@@ -57,6 +60,8 @@ export const tabsTable = pgTable("tabs", {
     id: serial("id").primaryKey(),
     name: varchar({ length: 255 }).notNull(),
     icon: varchar("icon", { length: 50 }),
+    isEssential: boolean("is_essential").default(false).notNull(), // Flag to mark essential tabs
+
 })
 
 export const tabsRelations = relations(tabsTable, ({ many }) => ({
