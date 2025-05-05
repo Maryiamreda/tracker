@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp, text } from "drizzle-orm/pg-core";
 
 // columns.helpers.ts
 const timestamps = {
@@ -28,27 +28,38 @@ export const receiptTable = pgTable("receipt", {
     id: serial("id").primaryKey(),
     headline: varchar({}).notNull(),
     total: integer().notNull(),
-    details: json('details').$type<Array<{
-        itemName: string,
-        price: number,
-        quantity: number,
-        notes?: string
-    }>>().default([]),
+    // details: json('details').$type<Array<{
+    //     itemName: string,
+    //     price: number,
+    //     quantity: number,
+    //     notes?: string
+    // }>>().default([]),
     ownerId: integer("owner_id").references(() => usersTable.id),
     ...timestamps
 
 })
 
 
-
-export const receiptRelations = relations(receiptTable, ({ one, many }) => ({
+export const receiptRelations = relations(receiptTable, ({ one , many }) => ({
     owner: one(usersTable, {
         fields: [receiptTable.ownerId],
         references: [usersTable.id],
     }),
-    receiptToTags: many(receiptToTagsTable),
+    items: many(receiptItemsTable )
 }));
 
+export const receiptItemsTable =pgTable("receipt_items", {
+    id: serial("id").primaryKey(),
+    cost: integer().notNull(),
+    details: text(),
+    receiptId: integer("receipt_id").references(() => receiptTable.id),
+    ...timestamps
+
+})
+export const receiptItemsRelations=relations(receiptItemsTable,({many})=>({
+    itemsToTags: many(itemsToTagsTable),
+
+}))
 
 export const tagsTable = pgTable("tags", {
     id: serial("id").primaryKey(),
@@ -61,7 +72,7 @@ export const tagsTable = pgTable("tags", {
 })
 
 export const tagsRelations = relations(tagsTable, ({ many, one }) => ({
-    receiptToGroups: many(receiptToTagsTable),
+    itemsToTags: many(itemsToTagsTable),
     owner: one(usersTable, {
         fields: [tagsTable.ownerId],
         references: [usersTable.id],
@@ -69,28 +80,28 @@ export const tagsRelations = relations(tagsTable, ({ many, one }) => ({
 }));
 
 
-export const receiptToTagsTable = pgTable(
-    "receipt_to_tags",
+export const itemsToTagsTable = pgTable(
+    "items_to_tags",
     {
-        receiptId: integer("receipt_id")
+        itemId: integer("item_id")
             .notNull()
-            .references(() => receiptTable.id),
+            .references(() => receiptItemsTable.id),
         tagId: integer("tag_id")
             .notNull()
             .references(() => tagsTable.id),
     },
     (t) => ({
-        pk: primaryKey({ columns: [t.receiptId, t.tagId] })
+        pk: primaryKey({ columns: [t.itemId, t.tagId] })
     })
 );
 
-export const receiptToTagsRelations = relations(receiptToTagsTable, ({ one }) => ({
-    receipt: one(receiptTable, {
-        fields: [receiptToTagsTable.receiptId],
-        references: [receiptTable.id],
+export const itemsToTagsRelations  = relations(itemsToTagsTable, ({ one }) => ({
+    item: one(receiptItemsTable, {
+        fields: [itemsToTagsTable.itemId],
+        references: [receiptItemsTable.id],
     }),
     tag: one(tagsTable, {
-        fields: [receiptToTagsTable.tagId],
+        fields: [itemsToTagsTable.tagId],
         references: [tagsTable.id],
     }),
 }));
