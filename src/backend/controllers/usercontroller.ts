@@ -1,16 +1,11 @@
 import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/postgres-js';
 import { eq } from 'drizzle-orm';
-import postgres from 'postgres';
-import * as schema from './db/schema';
+import * as schema from '../db/schema';
 import * as bcrypt from 'bcrypt';
 import * as validator from 'validator';
 import  jwt from 'jsonwebtoken';
-
-const client = postgres(process.env.SUPABASE_URL!);
-const db = drizzle({ client });
-
-
+import { db } from '..';
+import { NextApiRequest, NextApiResponse } from 'next';
 type UserData ={
 username: string;
   email: string;
@@ -22,23 +17,7 @@ type LoginCredentials = {
     email: string;
     password: string;
   };
-
-
-
-async function getuserreceipts(userId: number){
-try{
-    const receipts = await db.select()
-    .from(schema.receiptTable).where(eq(schema.receiptTable.ownerId, userId));
-    return receipts;
-
-}catch(err){
-    console.error("Error fetching user receipts:", err);
-    throw err;
-
-
-}
-}
-
+ 
 //create user account 
 async function createUser(userData:UserData) {
     try{
@@ -76,7 +55,7 @@ async function createUser(userData:UserData) {
             success: true,
             message: "User created successfully",
             data: {
-              newUser
+              newUser , token
             }
         }
     }catch(err){
@@ -85,7 +64,12 @@ async function createUser(userData:UserData) {
     }
     }
 
-async function userLogin(credentials: LoginCredentials) {
+
+
+async function userLogin(credentials: LoginCredentials , 
+   
+  res: NextApiResponse
+) {
   try{
     const { email, password } = credentials;
     if (!email || !password) {
@@ -124,8 +108,8 @@ async function userLogin(credentials: LoginCredentials) {
         message: "Login successful",
         data: {
           token
-        }
-      };
+        }, 
+    };
    
 }
 catch(err){
