@@ -12,7 +12,7 @@ const timestamps = {
 export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     username: varchar({ length: 255 }).notNull(),
-    age: integer().notNull(),
+    birthday: integer().notNull(),
     email: varchar({ length: 255 }).notNull().unique(),
     password: varchar('password'),
 });

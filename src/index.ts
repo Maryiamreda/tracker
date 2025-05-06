@@ -1,12 +1,22 @@
 import 'dotenv/config';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { eq } from 'drizzle-orm';
-import { usersTable } from './db/schema';
 import postgres from 'postgres';
 import * as schema from './db/schema';
+import * as bcrypt from 'bcrypt';
+import * as validator from 'validator';
+import  jwt from 'jsonwebtoken';
+
 const client = postgres(process.env.SUPABASE_URL!);
 const db = drizzle({ client });
 
+
+type UserData ={
+    username: string;
+  email: string;
+  birthday: number;
+  password: string;
+}
 
 async function getuserreceipts(userId: number){
 try{
@@ -22,20 +32,52 @@ try{
 }
 }
 
+//create user account 
 
-// async function main() {
-//     const user: typeof usersTable.$inferInsert = {
-//         username: 'John',
-//         age: 30,
-//         email: 'john@example.com',
-//     };
+async function createUser(userData:UserData) {
+    try{
+        if (!userData.username || !userData.email || !userData.birthday || !userData.password) {
+            throw new Error("Missing required user information");
+          }
+          if (!validator.isEmail(userData.email)) {
+            return { success: false, message: "Enter A Valid Email" }
+        }
+        if (userData.password.length < 8) {
+            return { success: false, message: "Enter Strong Password" }
 
-//     await db.insert(usersTable).values(user);
-//     console.log('New user created!')
+        }
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(userData.password, salt);
+        // await db.insert(usersTable).values(user);
 
-//     const users = await db.select().from(usersTable);
-//     console.log('Getting all users from the database: ', users)
 
-// }
+        const newUser = await db.insert(schema.usersTable)
+        .values({
+          username: userData.username,
+          email: userData.email,
+          birthday: userData.birthday, 
+          password: hashedPassword
+        }).returning();
+        // const token = jwt.sign({ userId: newUser[0].id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
-// main();
+      
+
+
+        return {
+            success: true,
+            message: "User created successfully",
+            data: {
+              newUser
+            }
+        }
+    
+    }catch(err){
+        console.error("Error fetching user receipts:", err);
+        throw err;
+    
+    
+    }
+   
+
+    }
+
