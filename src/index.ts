@@ -12,11 +12,18 @@ const db = drizzle({ client });
 
 
 type UserData ={
-    username: string;
+username: string;
   email: string;
   birthday: number;
   password: string;
 }
+// Login credentials type
+type LoginCredentials = {
+    email: string;
+    password: string;
+  };
+
+
 
 async function getuserreceipts(userId: number){
 try{
@@ -33,7 +40,6 @@ try{
 }
 
 //create user account 
-
 async function createUser(userData:UserData) {
     try{
         if (!userData.username || !userData.email || !userData.birthday || !userData.password) {
@@ -58,10 +64,7 @@ async function createUser(userData:UserData) {
           birthday: userData.birthday, 
           password: hashedPassword
         }).returning();
-        // const token = jwt.sign({ userId: newUser[0].id }, process.env.JWT_SECRET, { expiresIn: '1d' });
-
-      
-
+        const token = jwt.sign({ userId: newUser[0].id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
 
         return {
             success: true,
@@ -70,14 +73,57 @@ async function createUser(userData:UserData) {
               newUser
             }
         }
-    
     }catch(err){
         console.error("Error fetching user receipts:", err);
         throw err;
-    
-    
     }
+    }
+
+async function userLogin(credentials: LoginCredentials) {
+  try{
+    const { email, password } = credentials;
+    if (!email || !password) {
+        return { success: false, message: "Email and password are required" };
+      }
+  
+      const users = await db.select()
+      .from(schema.usersTable)
+      .where(eq(schema.usersTable.email, email));
+    
+    if (users.length === 0) {
+      return { 
+        success: false, 
+        message: "User doesn't exist" 
+      };
+    }
+
+    const user = users[0];
+
+    // Verify password
+    const isMatch = await bcrypt.compare(password, user.password!);
+    if (!isMatch) {
+        return { 
+          success: false, 
+          message: "Invalid credentials" 
+        };
+      }
+      const token = jwt.sign(
+        { userId: user.id }, 
+        process.env.JWT_SECRET!, 
+        { expiresIn: '1d' }
+      );
+      
+      return { 
+        success: true, 
+        message: "Login successful",
+        data: {
+          token
+        }
+      };
    
-
+}
+catch(err){
+    console.error("Error fetching user receipts:", err);
+    throw err;
+}
     }
-
