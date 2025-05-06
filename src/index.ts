@@ -52,6 +52,12 @@ async function createUser(userData:UserData) {
             return { success: false, message: "Enter Strong Password" }
 
         }
+        const existingUsers= await db.select()
+        .from(schema.usersTable).where(eq(schema.usersTable.email, userData.email));
+        if(existingUsers.length > 0){
+            return { success: false, message: "This Email already exists! " }
+
+        }
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(userData.password, salt);
         // await db.insert(usersTable).values(user);
