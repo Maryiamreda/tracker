@@ -73,7 +73,7 @@ export const tagsRelations = relations(tagsTable, ({ many, one }) => ({
     })
 }));
 
-
+// junction/pivot table 
 export const itemsToTagsTable = pgTable(
     "items_to_tags",
     {
@@ -99,3 +99,4 @@ export const itemsToTagsRelations  = relations(itemsToTagsTable, ({ one }) => ({
         references: [tagsTable.id],
     }),
 }));
+
