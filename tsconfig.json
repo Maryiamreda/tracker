@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/config/supabaseClient.js",
-    "src/backend/index.ts"
+    "src/lib/backend/index.ts"
   ],
   "exclude": [
     "node_modules"
