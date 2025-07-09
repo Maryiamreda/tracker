@@ -11,7 +11,7 @@ export const ROUTES = {
   ,
   USER:{
   
-    RECEIPTS:'/:username'
+    RECEIPTS:'/:userid'
   },
   
 };

@@ -35,13 +35,10 @@ async function createUser(userData:UserData) {
         .from(schema.usersTable).where(eq(schema.usersTable.email, userData.email));
         if(existingUsers.length > 0){
             return { success: false, message: "This Email already exists! " }
-
         }
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(userData.password, salt);
         // await db.insert(usersTable).values(user);
-
-
         const newUser = await db.insert(schema.usersTable)
         .values({
           username: userData.username,
@@ -59,12 +56,10 @@ async function createUser(userData:UserData) {
             }
         }
     }catch(err){
-        console.error("Error fetching user receipts:", err);
+        console.error("Error adding user :", err);
         throw err;
     }
     }
-
-
 
 async function userLogin(credentials: LoginCredentials , 
    
