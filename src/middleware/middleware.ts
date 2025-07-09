@@ -1,1 +1,55 @@
 //Implements route protection middleware
+
+import { cookies } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
+import { decrypt } from "../lib/auth";
+import ROUTES from "@/lib/routes";
+
+const protectedRoutes = [ROUTES.USER.RECEIPTS];
+const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP];
+
+
+//get the path fron nextjs headers
+export default async function middleware(req: NextRequest) {
+   const path = req.nextUrl.pathname;
+  
+   console.log('my path is this ',path)
+ 
+    return handleUserRoutes(req, path);
+  
+}
+
+
+async function handleUserRoutes(req: NextRequest, path: string) {
+
+const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
+const isPublicRoute = publicRoutes.some(route => path === route);
+  // @ts-ignore
+  const cookie = cookies().get("session")?.value; //gets the token stored in browser's cookie storage
+  const session = await decrypt(cookie); //decrypts the JWT token and extracts the user data from it 
+  
+  if (isProtectedRoute && !session?.userId) { //no valid user session 
+    return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
+  }
+
+  if (isPublicRoute && session?.userId) {
+    return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
+  }
+  
+  return NextResponse.next();
+
+}
+// specifies which routes the middleware should run on.
+export const config = {
+  matcher: [
+    // Match all user routes
+    ROUTES.LOGIN, 
+    ROUTES.SIGNUP,
+    ROUTES.USER.RECEIPTS, 
+    // '/create-account',
+    // '/mybookings/:path*',
+    // '/my-bookings/:path*',
+    // Match all admin routes
+    // '/admin/:path*'
+  ],
+};
