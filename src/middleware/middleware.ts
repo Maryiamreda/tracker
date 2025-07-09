@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "../lib/auth";
 import ROUTES from "@/lib/routes";
+import { getUserFromSession } from "@/lib/session";
 
 const protectedRoutes = [ROUTES.USER.RECEIPTS];
 const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP];
@@ -24,15 +25,15 @@ async function handleUserRoutes(req: NextRequest, path: string) {
 
 const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
 const isPublicRoute = publicRoutes.some(route => path === route);
-  // @ts-ignore
-  const cookie = cookies().get("session")?.value; //gets the token stored in browser's cookie storage
-  const session = await decrypt(cookie); //decrypts the JWT token and extracts the user data from it 
-  
-  if (isProtectedRoute && !session?.userId) { //no valid user session 
+//   const cookie = cookies().get("session")?.value; 
+//   const session = await decrypt(cookie); 
+    const user = await getUserFromSession();
+
+  if (isProtectedRoute && !user?.userId) { //no valid user session 
     return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
   }
 
-  if (isPublicRoute && session?.userId) {
+  if (isPublicRoute && user?.userId) {
     return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
   }
   
