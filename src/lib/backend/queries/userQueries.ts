@@ -24,9 +24,11 @@ async function createUser(userData:UserData) {
         if (!userData.username || !userData.email || !userData.birthday || !userData.password) {
             throw new Error("Missing required user information");
           }
-          if (!validator.isEmail(userData.email)) {
-            return { success: false, message: "Enter A Valid Email" }
-        }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(userData.email)) {
+      return { success: false, message: "Enter A Valid Email" }
+    }
+    
         if (userData.password.length < 8) {
             return { success: false, message: "Enter Strong Password" }
 
@@ -112,3 +114,19 @@ catch(err){
     throw err;
 }
     }
+   const testData = {
+  username: "maryiam",
+  birthday: new Date("2001-08-15").getTime(), // Convert to timestamp
+  email: "maryiamreda@gmail.com", // Fixed email domain
+  password: "12345678",
+};
+
+   async function testCreateUser(data: UserData) {
+  try {
+    const result = await createUser(data);
+    console.log("User creation result:", result);
+  } catch (err) {
+    console.log("Error:", err);
+  }
+}
+testCreateUser(testData);

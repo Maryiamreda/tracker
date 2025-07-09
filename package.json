@@ -20,7 +20,7 @@
     "postgres": "^3.4.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "validator": "^13.15.0"
+    "validator": "^13.15.15"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
