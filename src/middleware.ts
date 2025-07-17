@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "../lib/auth";
+import { decrypt } from "./lib/auth";
 import ROUTES from "@/lib/routes";
 import { getUserFromSession } from "@/lib/session";
 
@@ -34,6 +34,7 @@ const isPublicRoute = publicRoutes.some(route => path === route);
   }
 
   if (isPublicRoute && user?.userId) {
+
     return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
   }
   
@@ -44,6 +45,7 @@ const isPublicRoute = publicRoutes.some(route => path === route);
 export const config = {
   matcher: [
     // Match all user routes
+    "/",
     ROUTES.LOGIN, 
     ROUTES.SIGNUP,
     ROUTES.USER.RECEIPTS, 

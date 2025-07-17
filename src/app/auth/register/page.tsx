@@ -16,7 +16,7 @@ const Register = () => {
       </div>
 
        <div className="w-full">
-                    <p className="text-start">Email</p>
+         <p className="text-start">Email</p>
         <input 
           id="email" 
           name="email" 
