@@ -23,24 +23,37 @@ export default async function middleware(req: NextRequest) {
 
 async function handleUserRoutes(req: NextRequest, path: string) {
 
-const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
 const isPublicRoute = publicRoutes.some(route => path === route);
-//   const cookie = cookies().get("session")?.value; 
-//   const session = await decrypt(cookie); 
+if (isPublicRoute) {
+    console.log('Public route detected:', path);
     const user = await getUserFromSession();
-
-  if (isProtectedRoute && !user?.userId) { //no valid user session 
-    return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
+    
+    // If user is logged in redirect to receipts
+    if (user?.userId) {
+      return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
+    }
+   return NextResponse.next();
   }
 
-  if (isPublicRoute && user?.userId) {
-
-    return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
+ const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
+  
+  if (isProtectedRoute) {
+    console.log('Protected route detected:', path);
+    const user = await getUserFromSession();
+    
+    if (!user?.userId) {
+      console.log('No user session, redirecting to login');
+      return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
+    }
   }
   
   return NextResponse.next();
-
+//   const cookie = cookies().get("session")?.value; 
+//   const session = await decrypt(cookie); 
+   
 }
+
+
 // specifies which routes the middleware should run on.
 export const config = {
   matcher: [
