@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp, text, date } from "drizzle-orm/pg-core";
 
 // columns.helpers.ts
 const timestamps = {
@@ -12,9 +12,9 @@ const timestamps = {
 export const usersTable = pgTable("users", {
     id: integer().primaryKey().generatedAlwaysAsIdentity(),
     username: varchar({ length: 255 }).notNull(),
-    birthday: integer().notNull(),
     email: varchar({ length: 255 }).notNull().unique(),
     password: varchar('password'),
+    birthday: date().notNull(),
 });
 
 export const usersRelations = relations(usersTable, ({ many }) => ({

@@ -9,7 +9,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 type UserData ={
 username: string;
   email: string;
-  birthday: number;
+  birthday: string;
   password: string;
 }
 // Login credentials type
@@ -19,7 +19,7 @@ type LoginCredentials = {
   };
  
 //create user account 
-async function createUser(userData:UserData) {
+export async function createUser(userData:UserData) {
     try{
         if (!userData.username || !userData.email || !userData.birthday || !userData.password) {
             throw new Error("Missing required user information");
@@ -54,7 +54,9 @@ async function createUser(userData:UserData) {
             success: true,
             message: "User created successfully",
             data: {
-              newUser , token
+              user:{
+             id: newUser[0].id
+              } , token
             }
         }
     }catch(err){
@@ -114,19 +116,4 @@ catch(err){
     throw err;
 }
     }
-   const testData = {
-  username: "maryiam",
-  birthday: new Date("2001-08-15").getTime(), // Convert to timestamp
-  email: "maryiamreda@gmail.com", // Fixed email domain
-  password: "12345678",
-};
-
-   async function testCreateUser(data: UserData) {
-  try {
-    const result = await createUser(data);
-    console.log("User creation result:", result);
-  } catch (err) {
-    console.log("Error:", err);
-  }
-}
-testCreateUser(testData);
+ 
