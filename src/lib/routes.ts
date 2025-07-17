@@ -1,6 +1,5 @@
 export const ROUTES = {
 
-    HOME: '/',
     LOGIN:'/auth/signin',
     SIGNUP:'/auth/register',
     EVENTS: {

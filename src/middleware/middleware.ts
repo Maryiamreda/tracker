@@ -6,7 +6,7 @@ import { decrypt } from "../lib/auth";
 import ROUTES from "@/lib/routes";
 import { getUserFromSession } from "@/lib/session";
 
-const protectedRoutes = [ROUTES.USER.RECEIPTS];
+const protectedRoutes = [ROUTES.USER.RECEIPTS , "/"];
 const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP];
 
 
