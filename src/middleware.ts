@@ -54,17 +54,8 @@ if (isPublicRoute) {
 // specifies which routes the middleware should run on.
 export const config = {
   matcher: [
-    // Match all user routes
     "/",
-    ROUTES.LOGIN, 
-    ROUTES.SIGNUP,
-    ROUTES.USER.RECEIPTS, 
-    // Exclude static files and API routes
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
-    // '/create-account',
-    // '/mybookings/:path*',
-    // '/my-bookings/:path*',
-    // Match all admin routes
-    // '/admin/:path*'
+    "/auth/signin", 
+    "/auth/register", 
   ],
 };
