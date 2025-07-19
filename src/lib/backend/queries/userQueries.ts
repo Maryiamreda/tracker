@@ -51,13 +51,14 @@ export async function createUser(userData:UserData) {
           password: hashedPassword
         }).returning();
         const token = jwt.sign({ userId: newUser[0].id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
-
+console.log(newUser[0])
         return {
             success: true,
             message: "User created successfully",
             data: {
               user:{
-             id: newUser[0].id
+             id: newUser[0].id,
+
               } , token
             }
         }

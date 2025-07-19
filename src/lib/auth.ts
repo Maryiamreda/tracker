@@ -4,6 +4,9 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.SESSION_SECRET;
+if (!secretKey) {
+    throw new Error("SESSION_SECRET is not set in the environment variables.");
+}
 const encodedKey = new TextEncoder().encode(secretKey); //encoding the secret key from  .env into a format that the JWT library can use for encryption
 
 
@@ -45,6 +48,8 @@ export async function createSession(userId: string) {
       secure: true,
       expires: expiresAt,
     });
+console.log("Cookie value being set:", session);
+console.log("Expires at:", expiresAt);
   }
 
 export async function deleteSession() {

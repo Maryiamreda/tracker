@@ -67,6 +67,7 @@ export async function createAccount(prevState: any,formData: FormData) {
 
   // Create session for the new user 
   await createSession(userId);
+
     redirect("/");
 }
 
