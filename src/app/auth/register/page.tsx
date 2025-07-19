@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useActionState, useEffect, useState } from 'react';
+import React, { useActionState } from 'react';
 import Link from 'next/link';
 import { createAccount } from './actions';
 import { useFormStatus } from 'react-dom';

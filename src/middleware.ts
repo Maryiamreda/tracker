@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./lib/auth";
+import { decrypt } from "./server/auth";
 import ROUTES from "@/lib/routes";
 import { getUserFromSession } from "@/lib/session";
 

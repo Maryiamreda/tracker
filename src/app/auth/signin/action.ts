@@ -1,5 +1,5 @@
-import { createSession } from "@/lib/auth";
-import { userLogin } from "@/lib/backend/queries/userQueries";
+import { createSession } from "@/server/auth";
+import { userLogin } from "@/server/backend/queries/userQueries";
 import { redirect } from "next/navigation";
 import { string, z } from "zod";
 
@@ -11,7 +11,7 @@ email:z.string().email({ message: "Invalid email address" }).trim(),
     .trim(),
 })
 
-export async  function signInAction(prevState: any,formData: FormData){
+export async  function signIn(prevState: any,formData: FormData){
 const result=signInSchema.safeParse(Object.fromEntries(formData));
 if(!result.success){
     return{

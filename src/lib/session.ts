@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { decrypt } from "./auth";
+import { decrypt } from "../server/auth";
 
 export async function getUserFromSession() {
 const cookieStore = await cookies();
