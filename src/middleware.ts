@@ -27,7 +27,7 @@ if (isPublicRoute) {
     const user = await getUserFromSession();
     // If user is logged in redirect to receipts
     if (user?.userId) {
-      return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));
+      return NextResponse.redirect(new URL("/", req.url));
     }
    return NextResponse.next();
   }
@@ -59,6 +59,8 @@ export const config = {
     ROUTES.LOGIN, 
     ROUTES.SIGNUP,
     ROUTES.USER.RECEIPTS, 
+    // Exclude static files and API routes
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
     // '/create-account',
     // '/mybookings/:path*',
     // '/my-bookings/:path*',

@@ -7,7 +7,6 @@ const session = cookieStore.get("session")?.value; //gets the token stored in br
 if (!session) return null;
 const payload = await decrypt(session); //decrypts the JWT token and extracts the user data from it 
 if (!payload?.userId) return null;
-console.log(`hi this is the get user from session function userId i send is ${payload.userId} , payload i send is ${payload} `)
 return { userId: payload.userId, payload };
 
 }
