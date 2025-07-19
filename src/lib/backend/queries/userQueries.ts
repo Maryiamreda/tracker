@@ -51,7 +51,6 @@ export async function createUser(userData:UserData) {
           password: hashedPassword
         }).returning();
         const token = jwt.sign({ userId: newUser[0].id }, process.env.JWT_SECRET!, { expiresIn: '1d' });
-console.log(newUser[0])
         return {
             success: true,
             message: "User created successfully",
@@ -68,10 +67,7 @@ console.log(newUser[0])
     }
     }
 
-async function userLogin(credentials: LoginCredentials , 
-   
-  res: NextApiResponse
-) {
+export async function userLogin(credentials: LoginCredentials ) {
   try{
     const { email, password } = credentials;
     if (!email || !password) {
@@ -109,6 +105,9 @@ async function userLogin(credentials: LoginCredentials ,
         success: true, 
         message: "Login successful",
         data: {
+          user:{        
+              id:user.id,
+              },
           token
         }, 
     };

@@ -26,7 +26,6 @@ export async function createAccount(prevState: any,formData: FormData) {
   }
   
   const { username, email, password , birthday } = result.data;
-  console.log(result.data);
   let userId;
 
   try {
@@ -53,7 +52,6 @@ export async function createAccount(prevState: any,formData: FormData) {
 
     // Get the user ID from the response
     userId = String(response.data.user.id);
-    console.log(userId);
    
   } catch (error) {
     console.error("Error creating account:", error);
@@ -67,15 +65,11 @@ export async function createAccount(prevState: any,formData: FormData) {
 
   // Create session for the new user 
   await createSession(userId);
-
     redirect("/");
 }
 
 
-
-
-
-  export async function logout() {
+export async function logout() {
   await deleteSession();
   redirect(ROUTES.LOGIN);
-  }
+ }
