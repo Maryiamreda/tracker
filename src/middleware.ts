@@ -24,9 +24,7 @@ export default async function middleware(req: NextRequest) {
 async function handleUserRoutes(req: NextRequest, path: string) {
 const isPublicRoute = publicRoutes.some(route => path === route);
 if (isPublicRoute) {
-    console.log('Public route detected:', path);
     const user = await getUserFromSession();
-    console.log(`hi im user ,  my id is  ${user?.userId}`)
     // If user is logged in redirect to receipts
     if (user?.userId) {
       return NextResponse.redirect(new URL(ROUTES.USER.RECEIPTS, req.nextUrl));

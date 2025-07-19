@@ -9,7 +9,6 @@ export const ROUTES = {
 
   ,
   USER:{
-  
     RECEIPTS:'/:userid'
   },
   
