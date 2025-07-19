@@ -9,18 +9,16 @@ import ROUTES from "../../../lib/routes";
 const createAccountSchema = z.object({
   username: z.string().min(3, { message: "Username must be at least 3 characters" }).trim(),
   email: z.string().email({ message: "Invalid email address" }).trim(),
- birthday: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format"),
-   password: z
+  birthday: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Use YYYY-MM-DD format"),
+  password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters" })
     .trim(),
   
 });
 
-export async function createAccount(prevState: any, formData: FormData) {
+export async function createAccount(prevState: any,formData: FormData) {
   const result = createAccountSchema.safeParse(Object.fromEntries(formData));
- 
-  
   if (!result.success) {
     return {
       errors: result.error.flatten().fieldErrors,
@@ -28,7 +26,7 @@ export async function createAccount(prevState: any, formData: FormData) {
   }
   
   const { username, email, password , birthday } = result.data;
-  console.log(result.data)
+  console.log(result.data);
   let userId;
 
   try {
@@ -54,8 +52,8 @@ export async function createAccount(prevState: any, formData: FormData) {
     }
 
     // Get the user ID from the response
-     userId = String(response.data.user.id);
-    console.log(userId)
+    userId = String(response.data.user.id);
+    console.log(userId);
    
   } catch (error) {
     console.error("Error creating account:", error);
@@ -69,7 +67,7 @@ export async function createAccount(prevState: any, formData: FormData) {
 
   // Create session for the new user 
   await createSession(userId);
-    redirect(ROUTES.USER.RECEIPTS);
+    redirect("/");
 }
 
 

@@ -33,9 +33,11 @@ export async function createUser(userData:UserData) {
             return { success: false, message: "Enter Strong Password" }
 
         }
+        console.log(userData)
         const existingUsers= await db.select()
         .from(schema.usersTable).where(eq(schema.usersTable.email, userData.email));
         if(existingUsers.length > 0){
+          console.log("This Email already exists! ")
             return { success: false, message: "This Email already exists! " }
         }
         const salt = await bcrypt.genSalt(10)
