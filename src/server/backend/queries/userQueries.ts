@@ -73,7 +73,7 @@ export async function userLogin(credentials: LoginCredentials ) {
     if (!email || !password) {
         return { success: false, message: "Email and password are required" };
       }
-  
+
       const users = await db.select()
       .from(schema.usersTable)
       .where(eq(schema.usersTable.email, email));

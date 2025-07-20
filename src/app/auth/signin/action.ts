@@ -1,3 +1,5 @@
+"use server";
+
 import { createSession } from "@/server/auth";
 import { userLogin } from "@/server/backend/queries/userQueries";
 import { redirect } from "next/navigation";
