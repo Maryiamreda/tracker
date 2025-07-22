@@ -18,7 +18,7 @@ return (
         <input 
           id="email" 
           name="email" 
-          placeholder="Email" 
+          placeholder="enter a your email" 
           className={styles.inputField}
         />
       </div>
@@ -28,13 +28,13 @@ return (
           id="password"
           name="password"
           type="password"
-          placeholder="Password"
+          placeholder="password"
           className={styles.inputField}
-          style={{ width: 'inherit' }}  
+          // style={{ width: 'inherit' }}  
                 />
       </div>
 <hr className="border-t-3 border-dashed border-black w-full my-4" />
-   <button type='submit' className=" border rounded w-full font-bold text-lg "  > Log In  </button>  
+   <button type='submit' className=" border rounded w-full font-bold text-lg cursor-pointer "  > Log In  </button>  
     <div>
         <p className=''>Don't have an account?</p>
         <p className="cursor-pointer text-center   text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
