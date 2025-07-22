@@ -1,3 +1,12 @@
+@import "tailwindcss";
+
+@theme{
+  --color-malachite: #34E166ff;
+--color-celadon: #A5F0B9ff;
+--color-pigment-green: #349B52ff;
+--color-black-olive: #343A36ff;
+--color-honeydew: #DCF5E2ff;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
