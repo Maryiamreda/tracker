@@ -9,11 +9,10 @@ import styles from './style.module.scss';
   
   
   return (
-<div >
-<form className=" bg-white w-sm"  action={logInAction} >
-         <h1>Welcome!</h1>
+<form className=" bg-white w-70 flex flex-col gap-6 items-center"  action={logInAction} >
+<h1 className='text-3xl font-bold '>Welcome!</h1>
 <div className={`${styles.inputDiv} w-full`}>
-        <p className="text-start">Email:</p>
+        <p className="">Email:</p>
         <input 
           id="email" 
           name="email" 
@@ -22,7 +21,7 @@ import styles from './style.module.scss';
         />
       </div>
 <div className={`${styles.inputDiv} w-full`}>
-        <p className="text-start">password:</p>
+        <p className="">password:</p>
         <input
           id="password"
           name="password"
@@ -34,11 +33,14 @@ className=""
    <button 
       type='submit' 
    className=" "    >
-    Sign Up
-    </button>  
+Log In    </button>  
+    <div>
+        <p className=''>Don't have an account?</p>
+        <p className="cursor-pointer text-center   text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
+
+      </div>
       </form>
-<p>Don't have an account?<span className="cursor-pointer text-indigo-700 underline" ><Link  href='/auth/register'>Sign Up</Link></span> </p>
-    </div>
+      
   );
 }
 

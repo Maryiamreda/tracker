@@ -20,11 +20,10 @@
   }
 }
 
-html,
-body {
- 
+input:focus {
+    outline: none;
+    border: none;
 }
-
 body {
  background-color:#258755ff ;
 }
