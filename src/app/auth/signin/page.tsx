@@ -11,13 +11,14 @@ import styles from './style.module.scss';
   return (
 <form className=" bg-white w-70 flex flex-col gap-6 items-center"  action={logInAction} >
 <h1 className='text-3xl font-bold '>Welcome!</h1>
+<hr className={styles.dottedLine} />
 <div className={`${styles.inputDiv} w-full`}>
         <p className="">Email:</p>
         <input 
           id="email" 
           name="email" 
           placeholder="Email" 
-          className="" 
+          className={styles.inputField}
         />
       </div>
 <div className={`${styles.inputDiv} w-full`}>
@@ -27,7 +28,7 @@ import styles from './style.module.scss';
           name="password"
           type="password"
           placeholder="Password"
-className="" 
+          className={styles.inputField}
         />
       </div>
    <button 
