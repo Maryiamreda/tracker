@@ -3,37 +3,37 @@
 import React, { useActionState } from 'react';
 import Link from 'next/link';
 import { signIn } from './action';
-
+import styles from './style.module.scss';
   const SignInForm = () => {
     const [state, logInAction] = useActionState(signIn, undefined); 
   
   
   return (
-<div>
-<form className="min-h-[80vh] flex items-center "  action={logInAction} >
-       
-       <div className="w-full">
-                    <p className="text-start">Email</p>
+<div >
+<form className=" bg-white w-sm"  action={logInAction} >
+         <h1>Welcome!</h1>
+<div className={`${styles.inputDiv} w-full`}>
+        <p className="text-start">Email:</p>
         <input 
           id="email" 
           name="email" 
           placeholder="Email" 
-          className="mt-1 border  w-full rounded p-2" 
+          className="" 
         />
       </div>
-      <div className="w-full">
-        <p className="text-start">password</p>
+<div className={`${styles.inputDiv} w-full`}>
+        <p className="text-start">password:</p>
         <input
           id="password"
           name="password"
           type="password"
           placeholder="Password"
-className="mt-1 border  w-full rounded p-2" 
+className="" 
         />
       </div>
    <button 
       type='submit' 
-   className="bg-emerald-800 text-white w-full py-2 my-2 rounded-md text-base cursor-pointer "    >
+   className=" "    >
     Sign Up
     </button>  
       </form>

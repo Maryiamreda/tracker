@@ -10,7 +10,7 @@ const Register = () => {
   
   return (
   <div>
-  <form className="min-h-[80vh] flex items-center " action={createAccountAction}>
+  <form className=" " action={createAccountAction}>
     <div  className="w-full">
         <p className="text-start">Full Name</p>
         <input 
