@@ -8,10 +8,11 @@ import styles from './style.module.scss';
     const [state, logInAction] = useActionState(signIn, undefined); 
   
   
-  return (
-<form className=" bg-white w-70 flex flex-col gap-6 items-center"  action={logInAction} >
-<h1 className='text-3xl font-bold '>Welcome!</h1>
-<hr className={styles.dottedLine} />
+return (
+<form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center`}
+  action={logInAction} >
+<h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
+<hr className="border-t-3 border-dashed border-black w-full my-4" />
 <div className={`${styles.inputDiv} w-full`}>
         <p className="">Email:</p>
         <input 
@@ -21,7 +22,7 @@ import styles from './style.module.scss';
           className={styles.inputField}
         />
       </div>
-<div className={`${styles.inputDiv} w-full`}>
+<div className={`${styles.inputDiv} w-full `}>
         <p className="">password:</p>
         <input
           id="password"
@@ -29,18 +30,27 @@ import styles from './style.module.scss';
           type="password"
           placeholder="Password"
           className={styles.inputField}
-        />
+          style={{ width: 'inherit' }}  
+                />
       </div>
-   <button 
-      type='submit' 
-   className=" "    >
-Log In    </button>  
+<hr className="border-t-3 border-dashed border-black w-full my-4" />
+   <button type='submit' className=" border rounded w-full font-bold text-lg "  > Log In  </button>  
     <div>
         <p className=''>Don't have an account?</p>
         <p className="cursor-pointer text-center   text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
-
       </div>
-      </form>
+      <div className='flex'>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+        <div className={styles.triangle}></div>
+      </div>
+     
+
+</form>
       
   );
 }

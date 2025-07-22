@@ -3,15 +3,33 @@
     justify-content: space-between;
 }
 .dottedLine{
-    border-top: 1px dashed red;
+    border-bottom: 1px dashed red;
 }
 .inputField {
-    border: none;
     border-bottom: 1px solid black; // adjust color as needed
     outline: none; // remove blue glow on focus
+    width: fit-content;
 }
 
-.inputField:focus {
+.inputField:focus{
     border-bottom: 1px solid black; // keep same on focus
     outline: none;
+
+}
+.inputForm{
+        font-family: 'Courier New', Courier, monospace;
+
+    padding: 10px;
+}
+
+
+.triangle:before {
+  content: '';
+  position: relative;
+  top: 60px;
+     width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 40px solid white;
 }
