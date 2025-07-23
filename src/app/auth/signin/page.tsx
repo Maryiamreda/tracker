@@ -13,7 +13,7 @@ return (
   <div className='bg-emerald-50 w-85 rounded-xl p-5 flex items-center justify-center'>
     <div className='bg-black-olive w-80 rounded-xl p-1.5'></div>
   </div>
- <form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center relative bottom-6`} action={logInAction} >
+ <form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center relative bottom-6 rounded-t-sm`} action={logInAction} >
 <h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
 <hr className="border-t-3 border-dashed border-black w-full my-2" />
 <div className={`${styles.inputDiv} w-full font-semibold`}>
