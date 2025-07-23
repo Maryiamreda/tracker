@@ -10,7 +10,7 @@ import styles from './style.module.scss';
   
 return (
 <div className={`${styles.container}`}>
-  <div className='bg-emerald-50 w-85 rounded-xl p-5 flex items-center justify-center'>
+  <div className={`${styles.receiptPrinter}    bg-emerald-50 w-85 rounded-xl p-5 flex items-center justify-center`}>
     <div className='bg-black-olive w-80 rounded-xl p-1.5'></div>
   </div>
  <form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center relative bottom-6 rounded-t-sm`} action={logInAction} >
