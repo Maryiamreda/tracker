@@ -9,10 +9,9 @@ import styles from './style.module.scss';
   
   
 return (
-<form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center`}
-  action={logInAction} >
+<form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center`} action={logInAction} >
 <h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
-<hr className="border-t-3 border-dashed border-black w-full my-4" />
+<hr className="border-t-3 border-dashed border-black w-full my-2" />
 <div className={`${styles.inputDiv} w-full`}>
         <p className="">Email:</p>
         <input 
@@ -33,20 +32,16 @@ return (
           // style={{ width: 'inherit' }}  
                 />
       </div>
-<hr className="border-t-3 border-dashed border-black w-full my-4" />
+<hr className="border-t-3 border-dashed border-black w-full my-2" />
    <button type='submit' className=" border rounded w-full font-bold text-lg cursor-pointer "  > Log In  </button>  
     <div>
         <p className=''>Don't have an account?</p>
-        <p className="cursor-pointer text-center   text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
+        <p className="cursor-pointer text-center  text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
       </div>
-      <div className='flex'>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
-        <div className={styles.triangle}></div>
+      <div className='flex gap-2 relative top-6'>
+         {Array.from({ length: 10 }).map((_, index) => (
+    <div key={index} className={styles.circle}></div>
+  ))}
       </div>
      
 

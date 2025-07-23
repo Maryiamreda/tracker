@@ -10,7 +10,7 @@
 
 }
 :root {
-
+--sea-green: #258755ff;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,6 +27,6 @@ body {
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  /* padding: 0;
+  margin: 0; */
 }
