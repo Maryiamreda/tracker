@@ -13,10 +13,11 @@ return (
   <div className={`${styles.receiptPrinter}    bg-emerald-50 w-85 rounded-xl p-5 flex items-center justify-center`}>
     <div className='bg-black-olive w-80 rounded-xl p-1.5'></div>
   </div>
- <form   className={`${styles.inputForm} bg-white w-70 flex flex-col gap-6 items-center relative bottom-6 rounded-t-sm`} action={logInAction} >
+ <form   className={`${styles.inputForm} bg-white w-70 flex flex-col items-center relative bottom-6 rounded-t-sm`} action={logInAction} >
 <h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
-<hr className="border-t-3 border-dashed border-black w-full my-2" />
-<div className={`${styles.inputDiv} w-full font-semibold`}>
+<div>{new Date().toLocaleString()}</div>
+<hr className="border-t-3 border-dashed border-black w-full my-5" />
+<div className={`${styles.inputDiv} w-full font-semibold my-2`}>
         <p className="">Email:</p>
         <input 
           id="email" 
@@ -25,7 +26,7 @@ return (
           className={styles.inputField}
         />
       </div>
-<div className={`${styles.inputDiv} w-full font-semibold `}>
+<div className={`${styles.inputDiv} w-full font-semibold my-2 `}>
         <p className="">password:</p>
         <input
           id="password"
@@ -36,8 +37,8 @@ return (
           // style={{ width: 'inherit' }}  
                 />
       </div>
-<hr className="border-t-3 border-dashed border-black w-full my-2" />
-   <button type='submit' className=" border rounded w-full font-bold text-lg cursor-pointer "  > Log In  </button>  
+<hr className="border-t-3 border-dashed border-black w-full my-5" />
+   <button type='submit' className={` ${styles.formButton}     border rounded w-full font-bold text-lg cursor-pointer my-4 `}  > Log In  </button>  
     <div>
         <p className=''>Don't have an account?</p>
         <p className="cursor-pointer text-center  text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
