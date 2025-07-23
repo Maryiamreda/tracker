@@ -11,6 +11,8 @@
 }
 :root {
 --sea-green: #258755ff;
+  --bg-image: url('/assets/pics/backgroundImage.svg');
+
 }
 
 @media (prefers-color-scheme: dark) {

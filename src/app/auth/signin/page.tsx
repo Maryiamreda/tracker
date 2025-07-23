@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useActionState } from 'react';
+import React, { useActionState, useState } from 'react';
 import Link from 'next/link';
 import { signIn } from './action';
 import styles from './style.module.scss';
+import i from '../../../../public/assets/pics/backgroundImage.svg';
   const SignInForm = () => {
     const [state, logInAction] = useActionState(signIn, undefined); 
-  
+  const[date,setDate]=useState(new Date().toLocaleString())
   
 return (
 <div className={`${styles.container}`}>
@@ -15,7 +16,7 @@ return (
   </div>
  <form   className={`${styles.inputForm} bg-white w-70 flex flex-col items-center relative bottom-6 rounded-t-sm`} action={logInAction} >
 <h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
-<div>{new Date().toLocaleString()}</div>
+<div>{date}</div>
 <hr className="border-t-3 border-dashed border-black w-full my-5" />
 <div className={`${styles.inputDiv} w-full font-semibold my-2`}>
         <p className="">Email:</p>
