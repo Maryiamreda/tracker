@@ -1,14 +1,17 @@
 "use client";
 
-import React, { useActionState, useState } from 'react';
+import React, { useActionState, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { signIn } from './action';
 import styles from './style.module.scss';
 import i from '../../../../public/assets/pics/backgroundImage.svg';
   const SignInForm = () => {
     const [state, logInAction] = useActionState(signIn, undefined); 
-  const[date,setDate]=useState(new Date().toLocaleString())
-  
+const [date, setDate] = useState<string | null>(null);
+
+useEffect(() => {
+    setDate(new Date().toLocaleString());
+}, []);  
 return (
 <div className={`${styles.container}`}>
   <div className={`${styles.receiptPrinter}    bg-emerald-50 w-85 rounded-xl p-5 flex items-center justify-center`}>
