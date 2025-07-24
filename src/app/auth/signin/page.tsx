@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { signIn } from './action';
 import styles from './style.module.scss';
 import i from '../../../../public/assets/pics/backgroundImage.svg';
-  const SignInForm = () => {
+const SignInForm = () => {
     const [state, logInAction] = useActionState(signIn, undefined); 
-const [date, setDate] = useState<string | null>(null);
+    const [date, setDate] = useState<string | null>(null);
 
 useEffect(() => {
     setDate(new Date().toLocaleString());
@@ -46,15 +46,16 @@ return (
     <div>
         <p className=''>Don't have an account?</p>
         <p className="cursor-pointer text-center  text-indigo-800 underline" ><Link  href='/auth/register' >Sign Up</Link></p> 
-      </div>
-      <div className='flex gap-2 relative top-6'>
-         {Array.from({ length: 10 }).map((_, index) => (
+    </div>
+      
+ <div className='flex gap-2 absolute bottom-0'>
+         {Array.from({ length: 12 }).map((_, index) => (
     <div key={index} className={styles.circle}></div>
   ))}
-      </div>
-     
+      </div>    
 
 </form>
+
   </div>
 
       
