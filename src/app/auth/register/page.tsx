@@ -4,10 +4,12 @@ import React, { useActionState, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { createAccount } from './actions';
 import styles from './style.module.scss';
+import { useFormStatus } from 'react-dom';
 
 const Register = () => {
   const [state, createAccountAction] = useActionState(createAccount, undefined);
    const [date, setDate] = useState<string | null>(null);
+      const { pending } = useFormStatus();
   
   useEffect(() => {
       setDate(new Date().toLocaleString());
@@ -19,8 +21,8 @@ const Register = () => {
   </div>
   <form className={`${styles.inputForm} bg-white w-70 flex flex-col items-center relative bottom-6 rounded-t-sm`} action={createAccountAction}>
    <h1 className={` ${styles}    text-3xl font-bold`}><span className='text-sea-green text-6xl'>w</span>elcome!</h1>
-<div>{date}</div>
-<hr className="border-t-3 border-dashed border-black w-full my-5" />
+<div className='text-xs'>{date}</div>
+<hr className="border-t-3 border-dashed border-black w-full my-3" />
     <div  className={`${styles.inputDiv} w-full font-semibold my-2`}>
         <p className="text-start">Full Name</p>
         <input 
@@ -29,6 +31,9 @@ const Register = () => {
           placeholder="Username" 
           className={styles.inputField}
     />
+     {state?.errors?.username && (
+            <p className="text-red-600 text-sm">{state.errors.username[0]}</p>
+          )}
       </div>
 
        <div className={`${styles.inputDiv} w-full font-semibold my-2`}>
@@ -39,6 +44,9 @@ const Register = () => {
           placeholder="Email" 
           className={styles.inputField}
         />
+         {state?.errors?.email && (
+            <p className="text-red-600 text-sm">{state.errors.email[0]}</p>
+          )}
       </div>
       <div className={`${styles.inputDiv} w-full font-semibold my-2`}>
       <p className="text-start">Birthday</p>
@@ -49,6 +57,9 @@ const Register = () => {
     placeholder="YYYY-MM-DD"
     className="mt-1 border w-full rounded p-2"
   />
+   {state?.errors?.birthday && (
+            <p className="text-red-600 text-sm">{state.errors.birthday[0]}</p>
+          )}
      </div>
       <div className={`${styles.inputDiv} w-full font-semibold my-2`}>
         <p className="text-start">password</p>
@@ -59,10 +70,15 @@ const Register = () => {
           placeholder="Password"
           className={styles.inputField}
         />
+         {state?.errors?.password && (
+            <p className="text-red-600 text-sm">{state.errors.password[0]}</p>
+          )}
       </div>
-<hr className="border-t-3 border-dashed border-black w-full my-5" />
+<hr className="border-t-3 border-dashed border-black w-full my-3" />
 
-   <button type='submit' className={` ${styles.formButton}     border rounded w-full font-bold text-lg cursor-pointer my-4 `}  >Create Account </button>  
+   <button type='submit'       disabled={pending} className={` ${styles.formButton}     border rounded w-full font-bold text-lg cursor-pointer my-4 `}  >
+   {pending?'Creating Account...':'Sign Up '} 
+     </button>  
      <div>
         <p className=''>Already have an account? </p>
         <p className="cursor-pointer text-center  text-indigo-800 underline" ><Link  href='/auth/signin' >Sign In</Link></p> 

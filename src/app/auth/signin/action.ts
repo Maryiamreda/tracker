@@ -6,9 +6,10 @@ import { redirect } from "next/navigation";
 import { string, z } from "zod";
 
 const signInSchema=z.object({
-email:z.string().email({ message: "Invalid email address" }).trim(),
+email:z.string().trim().min(1, { message: "Email is required" }) 
+  .email({ message: "Invalid email format" }),
  password: z
-    .string()
+    .string().min(1, { message: "Password is required" }) 
     .min(8, { message: "Password must be at least 8 characters" })
     .trim(),
 })
@@ -17,8 +18,11 @@ export async  function signIn(prevState: any,formData: FormData){
 const result=signInSchema.safeParse(Object.fromEntries(formData));
 if(!result.success){
     return{
-              errors: result.error.flatten().fieldErrors,
-    }
+ errors: {
+        email: result.error.flatten().fieldErrors.email,
+        password: result.error.flatten().fieldErrors.password,
+        username: undefined,
+      },    }
 }
     const{email,password}=result.data
     let userId;
