@@ -43,6 +43,7 @@ if (isPublicRoute) {
       console.log('No user session, redirecting to login');
       return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
     }
+      return NextResponse.next();
   }
       const user = await getUserFromSession();
       console.log(`user name is ${user?.userName} and id is ${user?.userId}`)
