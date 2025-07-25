@@ -6,7 +6,7 @@ import { decrypt } from "./server/auth";
 import ROUTES from "@/lib/routes";
 import { getUserFromSession } from "@/lib/session";
 
-const protectedRoutes = ["/account", "/"]; // Fixed: Use static paths
+const protectedRoutes = ["/account" , "/" ]; // Fixed: Use static paths
 const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP];
 
 
@@ -27,10 +27,11 @@ if (isPublicRoute) {
     const user = await getUserFromSession();
     // If user is logged in redirect to receipts
     if (user?.userId) {
+      console.log(`user name is ${user?.userName} and id is ${user?.userId}`)
       return NextResponse.redirect(new URL(`/account/${user.userId}`, req.url));
     }
    return NextResponse.next();
-  }
+ }
 
  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
   
@@ -43,7 +44,8 @@ if (isPublicRoute) {
       return NextResponse.redirect(new URL(ROUTES.LOGIN, req.nextUrl));
     }
   }
-  
+      const user = await getUserFromSession();
+      console.log(`user name is ${user?.userName} and id is ${user?.userId}`)
   return NextResponse.next();
 //   const cookie = cookies().get("session")?.value; 
 //   const session = await decrypt(cookie); 

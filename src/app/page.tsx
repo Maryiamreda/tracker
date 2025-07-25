@@ -1,6 +1,5 @@
 "use client";
 
-import { deleteSession } from "@/server/auth";
 import styles from "./page.module.css";
 import { LogOut } from "@/deleteSessionAction";
 export default function Home() {

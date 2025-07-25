@@ -12,7 +12,7 @@ const encodedKey = new TextEncoder().encode(secretKey); //encoding the secret ke
 
 type SessionPayload = {
   userId: string;
-   name?: string; // Added name field
+   userName?: string; // Added name field
   expiresAt: Date;
 };
 //All this function does is create a JWT (Json Web Token) 
@@ -38,9 +38,9 @@ export async function decrypt(session: string | undefined = "") {
 }
 
 
-export async function createSession(userId: string , name?: string) {
+export async function createSession(userId: string , userName?: string) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId,name, expiresAt }); //Json Web Token
+  const session = await encrypt({ userId,userName, expiresAt }); //Json Web Token
   const cookieStore = await cookies();
 
   // @ts-ignore

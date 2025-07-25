@@ -26,6 +26,7 @@ if(!result.success){
 }
     const{email,password}=result.data
     let userId;
+    let userName;
 try{
 const response=await userLogin({email,password});
 if (!response.success) {
@@ -46,7 +47,7 @@ if (!response.success) {
       };
     }
         userId = String(response.data.user.id);
-
+userName=response.data.user.name;
 }catch(err){
     console.error("Error Logging to account:", err);
     return {
@@ -57,7 +58,7 @@ if (!response.success) {
 }
 
   // Create session for the new user 
-  await createSession(userId);
+  await createSession(userId , userName);
     redirect("/");
     
 }

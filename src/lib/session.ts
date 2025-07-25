@@ -8,6 +8,6 @@ if (!session) return null;
 const payload = await decrypt(session); //decrypts the JWT token and extracts the user data from it 
 if (!payload?.userId) return null;
 return { userId: payload.userId, 
- userName: payload.name || payload.username, 
+ userName: payload.userName, 
       payload };
 }
