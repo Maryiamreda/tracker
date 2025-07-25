@@ -57,7 +57,7 @@ export async function createUser(userData:UserData) {
             data: {
               user:{
              id: newUser[0].id,
-
+name:newUser[0].username,
               } , token
             }
         }
@@ -107,6 +107,7 @@ export async function userLogin(credentials: LoginCredentials ) {
         data: {
           user:{        
               id:user.id,
+           name: user.username
               },
           token
         }, 
@@ -118,4 +119,5 @@ catch(err){
     throw err;
 }
     }
- 
+
+
