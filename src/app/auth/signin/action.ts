@@ -60,6 +60,6 @@ userName=response.data.user.name;
 
   // Create session for the new user 
   await createSession(userId , userName);
-    redirect(ROUTES.USER.RECEIPTS(userName));
+    redirect("/");
     
 }

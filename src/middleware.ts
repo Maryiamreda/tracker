@@ -27,7 +27,7 @@ if (isPublicRoute) {
     const user = await getUserFromSession();
     // If user is logged in redirect to receipts
     if (user?.userId) {
-      return NextResponse.redirect(new URL(`/account/${user.userName}`, req.url));
+      return NextResponse.redirect(new URL("/", req.url));
     }
    return NextResponse.next();
  }
