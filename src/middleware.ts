@@ -16,7 +16,7 @@ export default async function middleware(req: NextRequest) {
   
    console.log('my path is this ',path)
  
-    return handleUserRoutes(req, path);
+return handleUserRoutes(req, path);
   
 }
 
@@ -27,8 +27,7 @@ if (isPublicRoute) {
     const user = await getUserFromSession();
     // If user is logged in redirect to receipts
     if (user?.userId) {
-      console.log(`user name is ${user?.userName} and id is ${user?.userId}`)
-      return NextResponse.redirect(new URL(`/account/${user.userId}`, req.url));
+      return NextResponse.redirect(new URL(`/account/${user.userName}`, req.url));
     }
    return NextResponse.next();
  }
@@ -45,9 +44,7 @@ if (isPublicRoute) {
     }
       return NextResponse.next();
   }
-      const user = await getUserFromSession();
-      console.log(`user name is ${user?.userName} and id is ${user?.userId}`)
-  return NextResponse.next();
+      
 //   const cookie = cookies().get("session")?.value; 
 //   const session = await decrypt(cookie); 
    

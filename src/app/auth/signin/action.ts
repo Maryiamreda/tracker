@@ -1,5 +1,6 @@
 "use server";
 
+import ROUTES from "@/lib/routes";
 import { createSession } from "@/server/auth";
 import { userLogin } from "@/server/backend/queries/userQueries";
 import { redirect } from "next/navigation";
@@ -59,6 +60,6 @@ userName=response.data.user.name;
 
   // Create session for the new user 
   await createSession(userId , userName);
-    redirect("/");
+    redirect(ROUTES.USER.RECEIPTS(userName));
     
 }

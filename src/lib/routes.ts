@@ -6,7 +6,7 @@ export const ROUTES = {
 
   
   USER:{
-   RECEIPTS: (userId: string | number) => `/account/${userId}`
+   RECEIPTS: (userName: string | number) => `/account/${userName}`
     },
   
 };
