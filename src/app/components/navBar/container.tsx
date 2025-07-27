@@ -1,17 +1,12 @@
+// app/account/page.tsx
+import { getUserFromSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 
-import { getUserFromSession } from '@/lib/session';
-
-const NavBar = async () => {
+export default async function Page() {
   const user = await getUserFromSession();
-  
-  if (!user) {
-    return <div>Please log in</div>;
-  }
-  
-  return (
-    <div>
-      welcome back {user.userName} 
-    </div>
-  );
-};
-export default NavBar;
+  if (!user) redirect("/login");
+
+  return <div>Welcome back, 
+    {/* {user.userName} */}
+    </div>;
+}
