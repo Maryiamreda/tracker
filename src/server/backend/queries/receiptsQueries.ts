@@ -8,7 +8,7 @@ type ReceiptData={
     // userId:string
 }
 
-async function getUserReceipts(UserId: number){
+export default async function getUserReceipts(UserId: number){
     try{
         const receipts = await db.select()
         .from(schema.receiptTable).where(eq(schema.receiptTable.ownerId, UserId));

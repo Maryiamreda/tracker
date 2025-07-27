@@ -1,12 +1,12 @@
 "use client";
 
+import NavBar from "./components/navBar/container";
 import styles from "./page.module.css";
-import { LogOut } from "@/deleteSessionAction";
 export default function Home() {
-  return (
+return (
 <div className={styles.page}>
+  <NavBar/>
 Home page !!!!
-<button onClick={LogOut}>delete session</button>
 </div>
   );
 }
