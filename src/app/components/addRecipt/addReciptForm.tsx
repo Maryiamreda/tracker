@@ -1,12 +1,16 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useActionState, useState } from 'react';
+import { addReceipt } from './actions';
+// import { addReceipt } from './actions';
 interface Item {
   id: string;
   details: string;
   cost: string;
 }
 const AddReciptForm = () => {
+      const [state, createreciptaction] = useActionState(addReceipt, undefined); 
+  
  const [items, setItems] = useState<Item[]>([
     { id: '1', details: '', cost: '' }
   ]);
@@ -29,7 +33,7 @@ const AddReciptForm = () => {
 
 
   return (
-     <form className="flex items-center ">
+     <form className="flex items-center " action={createreciptaction}>
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl
        text-sm shadow-lg">
          
@@ -59,7 +63,7 @@ const AddReciptForm = () => {
           <p className="text-start">details</p>
         <input 
           id="details" 
-          name="details" 
+  name={`items[${index}][details]`} 
           placeholder="details" 
        className="mt-1 border  w-full rounded p-2" 
     />
@@ -67,7 +71,7 @@ const AddReciptForm = () => {
         <input 
         type='number'
           id="cost" 
-          name="cost" 
+  name={`items[${index}][cost]`} 
           placeholder="cost" 
        className="mt-1 border  w-full rounded p-2" 
     />
@@ -88,9 +92,20 @@ const AddReciptForm = () => {
         </div>
 
 
-
+<button
+  type="submit"
+  className="bg-blue-500 text-white rounded p-2 w-full hover:bg-blue-600 transition"
+>
+  Save Receipt
+</button>
       
-    
+    {state?.error && (
+  <div className="text-red-500 text-sm">
+    {Object.entries(state.error).map(([field, value]) => (
+      <p key={field}>{field}: {JSON.stringify(value)}</p>
+    ))}
+  </div>
+)}
 
 
      

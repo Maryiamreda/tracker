@@ -1,5 +1,7 @@
 "use server";
 
+import { getUserFromSession } from "@/lib/session";
+import { addNewReceipt } from "@/server/backend/queries/receiptsQueries";
 import { redirect } from "next/navigation";
 import { string, z } from "zod";
 
@@ -19,19 +21,48 @@ const receiptSchema = z.object({
     .min(1, { message: "At least one item is required" })
 });
 
+
+
+
 export async  function addReceipt(prevState: any,formData: FormData){
-const result=receiptItemsSchema.safeParse(Object.fromEntries(formData));
-if(!result.success){
-    return{
- errors: {
-        email: result.error.flatten().fieldErrors.email,
-        password: result.error.flatten().fieldErrors.password,
-        username: undefined,
-      },    }
+  const headline = formData.get("headline");
+const items: { cost: number; details: string }[] = [];
+  let index = 0;
+  while (true) {
+    const details = formData.get(`items[${index}][details]`);
+    const cost = formData.get(`items[${index}][cost]`);
+    if (details === null && cost === null) break;
+
+    if (typeof details === "string" && typeof cost === "string") {
+      items.push({ 
+        details: details.trim(), 
+        cost: parseFloat(cost)
+      });
+    }
+    index++;
+  }
+    const parsedData = receiptSchema.safeParse({ headline, items });
+ if (!parsedData.success) {
+    return { error: parsedData.error.format() };
+  }
+try{
+const user = await getUserFromSession();
+const userId = user?.userId;
+
+if (typeof userId !== "number") {
+  return { error: "User not authenticated" };
 }
-const result=receiptSchema.safeParse(Object.fromEntries(formData));
+        const response = await addNewReceipt(parsedData.data, userId);
+    return { success: true, data: response.data };
+
+    
+    
+}catch{
+    return { error: "Server error. Please try again." };
 
 }
+}
+
 
 
 

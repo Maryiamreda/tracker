@@ -25,7 +25,7 @@ type ReceiptData = {
  }
 
 
-async function addNewReceipt(receiptData: ReceiptData, userId: number){
+async function addNewReceipt(receiptData: ReceiptData, userId: number ){
 try{
    
     const newReceipt = await db.insert(schema.receiptTable).values({
@@ -55,4 +55,4 @@ data: {
 }
 }
 
-export default{addNewReceipt ,getUserReceipts }
+export {addNewReceipt ,getUserReceipts }
