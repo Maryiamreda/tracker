@@ -2,13 +2,12 @@
 
 import React, { useActionState, useState } from 'react';
 import { addReceipt } from './actions';
+import { Item, Tag } from '@/app/types';
 // import { addReceipt } from './actions';
-interface Item {
-  id: string;
-  details: string;
-  cost: string;
-}
-const AddReceiptForm = () => {
+type Props = {
+  tags?: Tag[]; // Optional array of Tag
+};
+const AddReceiptForm = ({ tags = [] }: Props) => {
       const [state, createreciptaction] = useActionState(addReceipt, undefined); 
   
  const [items, setItems] = useState<Item[]>([
@@ -80,7 +79,18 @@ const AddReceiptForm = () => {
      
   ))}
 
-
+{tags && tags.length > 0 && (
+          <div className="w-full">
+            <label>Suggested Tags</label>
+            <select className="w-full p-2 border rounded">
+              {tags.map(tag => (
+                <option key={tag.id} value={tag.id}>
+                  {tag.icon ? `${tag.icon} ` : ''}{tag.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        )}
 
              <button
             type="button"
