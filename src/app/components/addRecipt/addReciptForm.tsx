@@ -36,11 +36,12 @@ const AddReciptForm = () => {
      <div  className="w-full">
          <p className="text-start">headline</p>
         <input 
-          id="username" 
-          name="username" 
-          placeholder="Username" 
+          id="headline" 
+          name="headline" 
+          placeholder="headline" 
        className="mt-1 border  w-full rounded p-2" 
     />
+    
       </div>
      
 
@@ -55,12 +56,21 @@ const AddReciptForm = () => {
                     Remove
                   </button>
                     <p className="text-start">Item</p>
+          <p className="text-start">details</p>
         <input 
-          id="email" 
-          name="email" 
-          placeholder="Email" 
-className="mt-1 border  w-full rounded p-2" 
-        />
+          id="details" 
+          name="details" 
+          placeholder="details" 
+       className="mt-1 border  w-full rounded p-2" 
+    />
+     <p className="text-start">cost</p>
+        <input 
+        type='number'
+          id="cost" 
+          name="cost" 
+          placeholder="cost" 
+       className="mt-1 border  w-full rounded p-2" 
+    />
       </div>
      
      

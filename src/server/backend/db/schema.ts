@@ -44,7 +44,7 @@ export const receiptRelations = relations(receiptTable, ({ one , many }) => ({
 export const receiptItemsTable =pgTable("receipt_items", {
     id: serial("id").primaryKey(),
     cost: integer().notNull(),
-    details: text(),
+    details: text().notNull(),
     receiptId: integer("receipt_id").references(() => receiptTable.id),
     ...timestamps
 
