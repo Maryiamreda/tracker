@@ -1,13 +1,15 @@
+"use client";
+
 import React from 'react';
 
-const addReciptUi = () => {
+const AddReciptForm = () => {
   return (
-     <form className="min-h-[80vh] flex items-center ">
+     <form className="flex items-center ">
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl
        text-sm shadow-lg">
          
      <div  className="w-full">
-                    <p className="text-start">Full Name</p>
+         <p className="text-start">headline</p>
         <input 
           id="username" 
           name="username" 
@@ -47,4 +49,4 @@ className="mt-1 border  w-full rounded p-2"
   );
 }
 
-export default addReciptUi;
+export default AddReciptForm;

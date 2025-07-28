@@ -2,13 +2,17 @@ import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
 
-type ReceiptData={
-    headline:string,
-    total?:number,
-    // userId:string
+type ItemsData = {   
+    cost: number,
+    details: string,
 }
 
-export default async function getUserReceipts(UserId: number){
+type ReceiptData = {
+    headline: string,
+    items: ItemsData[] 
+}
+
+ async function getUserReceipts(UserId: number){
     try{
         const receipts = await db.select()
         .from(schema.receiptTable).where(eq(schema.receiptTable.ownerId, UserId));
@@ -19,25 +23,36 @@ export default async function getUserReceipts(UserId: number){
         throw err;
     }
  }
-async function addNewReceipt(receiptData:ReceiptData , userId:number){
+
+
+async function addNewReceipt(receiptData: ReceiptData, userId: number){
 try{
-    if(!receiptData.headline) return{
-        success: false, message: "headline is required" 
-    }
-
-
+   
     const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
-        total: receiptData.total,
         ownerId: userId
     })
     .returning();
+
+const itemsToInsert = receiptData.items.map(item => ({
+            cost: item.cost,
+            details: item.details, 
+            receiptId: newReceipt[0].id 
+        }));
+const newItems = await db.insert(schema.receiptItemsTable).values(itemsToInsert)
+        .returning();
+
     return {
         success: true,
-        data: newReceipt[0]
-    };
+data: {
+                receipt: newReceipt[0],
+                items: newItems
+            }
+            };
 }catch(err){
     console.error("Error fetching user receipts:", err);
     throw err;
 }
 }
+
+export default{addNewReceipt ,getUserReceipts }

@@ -27,7 +27,6 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 export const receiptTable = pgTable("receipt", {
     id: serial("id").primaryKey(),
     headline: varchar({}).notNull(),
-    total: integer(),
     ownerId: integer("owner_id").references(() => usersTable.id),
     ...timestamps
 

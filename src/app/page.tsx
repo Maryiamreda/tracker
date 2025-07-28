@@ -1,10 +1,13 @@
 
 import { getUserFromSession } from "@/lib/session";
 import styles from "./page.module.css";
+import NavBar from "./components/navBar/container";
+import SideBar from "./components/sideBar/container";
 export default async  function Home() {
 return (
 <div className={styles.page}>
-Home page !!!! 
+<NavBar/>
+<SideBar/>
 </div>
   );
 }
