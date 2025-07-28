@@ -1,7 +1,7 @@
 "use server";
 
 import ROUTES from "@/lib/routes";
-import { createSession } from "@/server/auth";
+import { createSession } from "@/lib/auth";
 import { userLogin } from "@/server/backend/queries/userQueries";
 import { redirect } from "next/navigation";
 import { string, z } from "zod";

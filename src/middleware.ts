@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import { decrypt } from "./server/auth";
+import { decrypt } from "./lib/auth";
 import ROUTES from "@/lib/routes";
 import { getUserFromSession } from "@/lib/session";
 
@@ -13,7 +13,9 @@ const publicRoutes = [ROUTES.LOGIN, ROUTES.SIGNUP];
 //get the path fron nextjs headers
 export default async function middleware(req: NextRequest) {
    const path = req.nextUrl.pathname;
-  
+     
+
+
    console.log('my path is this ',path)
  
 return handleUserRoutes(req, path);

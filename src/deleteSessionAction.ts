@@ -1,6 +1,6 @@
 "use server";
 
-import { deleteSession } from "./server/auth";
+import { deleteSession } from "./lib/auth";
 
 export async  function  LogOut(){
   

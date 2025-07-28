@@ -2,7 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { createSession, deleteSession } from "../../../server/auth";
+import { createSession, deleteSession } from "../../../lib/auth";
 import { createUser } from "../../../server/backend/queries/userQueries"
 import ROUTES from "../../../lib/routes";
 

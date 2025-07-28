@@ -1,10 +1,10 @@
-"use client";
 
+import { getUserFromSession } from "@/lib/session";
 import styles from "./page.module.css";
-export default function Home() {
+export default async  function Home() {
 return (
 <div className={styles.page}>
-Home page !!!!
+Home page !!!! 
 </div>
   );
 }
