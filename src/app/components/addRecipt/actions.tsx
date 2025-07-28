@@ -45,14 +45,17 @@ const items: { cost: number; details: string }[] = [];
  if (!parsedData.success) {
     return { error: parsedData.error.format() };
   }
-try{
-const user = await getUserFromSession();
-const userId = user?.userId;
+  
 
-if (typeof userId !== "number") {
+try{
+     const user = await getUserFromSession();
+
+if (!user) {
   return { error: "User not authenticated" };
 }
-        const response = await addNewReceipt(parsedData.data, userId);
+const userId = user?.userId;
+
+const response = await addNewReceipt(parsedData.data, userId);
     return { success: true, data: response.data };
 
     

@@ -25,9 +25,12 @@ type ReceiptData = {
  }
 
 
-async function addNewReceipt(receiptData: ReceiptData, userId: number ){
+async function addNewReceipt(receiptData: ReceiptData, userId: number | undefined ){
+    console.log("hi")
 try{
-   
+if (typeof userId === "undefined") {
+  return { error: "User not authenticated" };
+}
     const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
         ownerId: userId

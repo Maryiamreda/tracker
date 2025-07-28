@@ -8,7 +8,7 @@ interface Item {
   details: string;
   cost: string;
 }
-const AddReciptForm = () => {
+const AddReceiptForm = () => {
       const [state, createreciptaction] = useActionState(addReceipt, undefined); 
   
  const [items, setItems] = useState<Item[]>([
@@ -33,7 +33,7 @@ const AddReciptForm = () => {
 
 
   return (
-     <form className="flex items-center " action={createreciptaction}>
+     <form className="flex flex-col items-center " action={createreciptaction}>
       <div className="flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border rounded-xl
        text-sm shadow-lg">
          
@@ -114,4 +114,4 @@ const AddReciptForm = () => {
   );
 }
 
-export default AddReciptForm;
+export default AddReceiptForm;

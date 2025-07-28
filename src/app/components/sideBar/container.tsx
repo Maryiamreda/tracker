@@ -1,10 +1,10 @@
 import React from 'react';
-import AddReciptForm from '../addRecipt/addReciptForm';
+import AddReceiptForm from '../addRecipt/addReciptForm';
 
 const SideBar = () => {
   return (
     <div>
-      <AddReciptForm/>
+      <AddReceiptForm/>
     </div>
   );
 }
