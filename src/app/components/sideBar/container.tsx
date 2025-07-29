@@ -8,9 +8,9 @@ const SideBar = async () => {
 
 const user = await getUserFromSession();
 
-  if (!user?.userId) {
+if (!user?.userId) {
     return <div>Please log in</div>;
-  }
+}
   const { data: tagList } = await getUserTags(user.userId); 
   return <AddReceiptForm tags={tagList} />; 
 

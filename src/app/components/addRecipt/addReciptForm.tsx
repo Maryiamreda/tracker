@@ -55,7 +55,7 @@ const AddReceiptForm = ({ tags }: Props) => {
      
 
 {items.map((item, index) => (
-              <div key={index} className="w-full">
+<div key={index} className="w-full">
                 <button
                     type="button"
                     onClick={() => removeItem(item.id)}
@@ -63,22 +63,47 @@ const AddReceiptForm = ({ tags }: Props) => {
                   >
                     Remove
                   </button>
-                    <p className="text-start">Item</p>
-          <p className="text-start">details</p>
+<p className="text-start">Item</p>
+<div className='flex text-xs gap-2'>
+  {tags.map((tag , index)=>(<div key={tag.id} >
+    <input
+        type="checkbox"
+        name="tags"
+        value={tag.id}
+        id={`tag-${index}`}
+        className="cursor-pointer"
+      />
+      <label htmlFor={`tag-${index}`} className="cursor-pointer">
+        {tag.icon} {tag.name}
+      </label>
+
+    </div>))}
+
+</div>
+<div className='flex'>
+<div>
+            <p className="text-start">details</p>
         <input 
           id="details" 
   name={`items[${index}][details]`} 
           placeholder="details" 
-       className="mt-1 border  w-full rounded p-2" 
+       className="mt-1 border   rounded p-2" 
     />
-     <p className="text-start">cost</p>
+</div>
+
+    <div>
+       <p className="text-start">cost</p>
         <input 
         type='number'
           id="cost" 
   name={`items[${index}][cost]`} 
           placeholder="cost" 
-       className="mt-1 border  w-full rounded p-2" 
+       className="mt-1 border  rounded p-2" 
     />
+    </div>
+    
+</div>
+
       </div>
      
      
@@ -94,7 +119,6 @@ const AddReceiptForm = ({ tags }: Props) => {
           </button>
         </div>
 
-{tags.map((tag)=>(<h1>{tag.name}{tag.icon}</h1>))}
 
 <button
   type="submit"
