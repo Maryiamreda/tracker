@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useActionState, useState } from 'react';
+import React, { useActionState, useEffect, useState } from 'react';
 import { addReceipt } from './actions';
 import { Item, Tag } from '@/app/types';
-// import { addReceipt } from './actions';
+import { getUserFromSession } from '@/lib/session';
+import { getUserTags } from '@/server/backend/queries/tagsQueries';
+
 type Props = {
-  tags?: Tag[]; // Optional array of Tag
+  tags: Tag[];
 };
-const AddReceiptForm = ({ tags = [] }: Props) => {
-      const [state, createreciptaction] = useActionState(addReceipt, undefined); 
-  
+const AddReceiptForm = ({ tags }: Props) => {
+  const [state, createreciptaction] = useActionState(addReceipt, undefined); 
  const [items, setItems] = useState<Item[]>([
     { id: '1', details: '', cost: '' }
   ]);
+
+
+
+
+
 
   const addItem = () => {
     const newItem: Item = {
@@ -48,7 +54,6 @@ const AddReceiptForm = ({ tags = [] }: Props) => {
       </div>
      
 
-
 {items.map((item, index) => (
               <div key={index} className="w-full">
                 <button
@@ -79,18 +84,6 @@ const AddReceiptForm = ({ tags = [] }: Props) => {
      
   ))}
 
-{tags && tags.length > 0 && (
-          <div className="w-full">
-            <label>Suggested Tags</label>
-            <select className="w-full p-2 border rounded">
-              {tags.map(tag => (
-                <option key={tag.id} value={tag.id}>
-                  {tag.icon ? `${tag.icon} ` : ''}{tag.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
 
              <button
             type="button"
@@ -101,6 +94,7 @@ const AddReceiptForm = ({ tags = [] }: Props) => {
           </button>
         </div>
 
+{tags.map((tag)=>(<h1>{tag.name}{tag.icon}</h1>))}
 
 <button
   type="submit"

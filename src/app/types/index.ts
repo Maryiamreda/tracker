@@ -6,7 +6,10 @@ export interface Item {
 export interface Tag {
   id: number;
   name: string;
-  icon?: string;
+  icon?: string | null;
   isEssential: boolean;
-  ownerId?: number;
+  ownerId?: number | null;
+  updated_at?: Date | null;
+  created_at?: Date;
+  deleted_at?: Date | null;
 }

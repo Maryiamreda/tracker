@@ -9,11 +9,12 @@ try{
       const tags = await db.select()
             .from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) ,     eq(schema.tagsTable.isEssential, true)
  ) );
+ console.log(tags)
             return{
-                data :tags
+              data:tags
             }
 }catch(error){
     console.error("Error fetching tags:", error);
-    return { error: "Failed to fetch tags" };
+    return { data:[], error: "Failed to fetch tags" };
 }
 }
