@@ -1,7 +1,7 @@
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-import { addReceiptItems } from "./itemsQueries";
+// import { addReceiptItems } from "./itemsQueries";
 
 type ItemsData = {   
     cost: number,
@@ -31,17 +31,15 @@ try{
 if (typeof userId === "undefined") {
   return { error: "User not authenticated" };
 }
-    const newReceipt = await db.insert(schema.receiptTable).values({
+const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
         ownerId: userId
     })
     .returning();
 
 
- const receiptId = newReceipt[0].id;
-
-    // Insert the receipt items
-    const newItems = await addReceiptItems(receiptId, receiptData.items);
+const receiptId = newReceipt[0].id;
+const newItems = await addReceiptItems(receiptId, receiptData.items);
     return {
         success: true,
      data: {

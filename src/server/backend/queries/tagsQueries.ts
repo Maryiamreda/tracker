@@ -20,12 +20,21 @@ try{
 }
 }
 
+
+export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
+  this should loop on the tags and adding thim using addTag then
+  await db.insert(schema.itemsToTagsTable).values({
+      itemId,
+      tagId
+    });
+}
+
 export async function addTag(tag: Tag, itemId?: number) {
   try {
-    if (tag.ownerId === null) {
+  if (tag.ownerId === null) {
   throw new Error("Tag must have a valid ownerId to check for duplicates.");
 }
-    const existingTag = await db.select()
+const existingTag = await db.select()
       .from(schema.tagsTable)
       .where(
         and(
@@ -39,6 +48,7 @@ export async function addTag(tag: Tag, itemId?: number) {
     }
 
     const newTag = await db.insert(schema.tagsTable).values(tag).returning();
+    
     return { data: newTag[0] };
   } catch (error) {
     console.error("Error Adding tag:", error);
