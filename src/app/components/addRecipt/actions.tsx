@@ -11,7 +11,9 @@ const receiptItemsSchema = z.object({
   cost: z.number()
     .min(0.01, { message: "Cost is required and must be more than 0" }),
   details: z.string().trim()
-    .min(1, { message: "Details is required" })
+    .min(1, { message: "Details is required" }),
+  tags: z.array(z.number()).optional() 
+
 });
 
 const receiptSchema = z.object({
@@ -19,7 +21,7 @@ const receiptSchema = z.object({
     .min(1, { message: "Headline is required" })
     .min(4, { message: "Headline must be at least 4 characters" }),
   items: z.array(receiptItemsSchema)
-    .min(1, { message: "At least one item is required" })
+    .min(1, { message: "At least one item is required" }),
 });
 
 
@@ -68,7 +70,7 @@ console.log(items)
       return { error: "User not authenticated" };
     }
 
-    const response = await addNewReceipt(parsedData.data, user.userId);
+    const response = await addNewReceipt(parsedData.data, user.userId);//
     return { success: true, data: response.data };
   } catch {
     return { error: "Server error. Please try again." };

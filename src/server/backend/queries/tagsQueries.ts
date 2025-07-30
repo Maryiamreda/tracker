@@ -22,11 +22,17 @@ try{
 
 
 export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
-  this should loop on the tags and adding thim using addTag then
+  try{
+     const tagResult = await addTag(tag); // handle duplication
+    const tagId = tagResult.data?.id ?? tag.id; // fallback to tag.id if already exists
+    if (typeof itemId === "undefined") {
+  throw new Error("itemId is required to link tag to item");
+}
   await db.insert(schema.itemsToTagsTable).values({
       itemId,
       tagId
     });
+  }catch{}
 }
 
 export async function addTag(tag: Tag, itemId?: number) {

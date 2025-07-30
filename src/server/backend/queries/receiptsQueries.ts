@@ -1,17 +1,9 @@
+import { Item, ReceiptData, Tag } from "@/app/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-// import { addReceiptItems } from "./itemsQueries";
+import { addReceiptItems } from "./itemsQueries";
 
-type ItemsData = {   
-    cost: number,
-    details: string,
-}
-
-type ReceiptData = {
-    headline: string,
-    items: ItemsData[] 
-}
 
  async function getUserReceipts(UserId: number){
     try{

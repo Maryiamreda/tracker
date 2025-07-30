@@ -2,7 +2,7 @@ export interface Item {
   id: string;
   details: string;
   cost: string;
-  tags:Tag[]
+  tags: number[];  
 }
 export interface Tag {
   id: number;
@@ -14,4 +14,9 @@ export interface Tag {
   created_at?: Date;
   deleted_at?: Date | null;
 
+
+}
+export interface ReceiptData  {
+    headline: string,
+    items: Item[] 
 }
