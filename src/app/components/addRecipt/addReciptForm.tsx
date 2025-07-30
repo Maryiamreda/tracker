@@ -12,19 +12,21 @@ type Props = {
 const AddReceiptForm = ({ tags }: Props) => {
   const [state, createreciptaction] = useActionState(addReceipt, undefined); 
  const [items, setItems] = useState<Item[]>([
-    { id: '1', details: '', cost: '' }
+    { id: '1', details: '', cost: '' , tags:[] }
   ]);
 
 
 
 
 
+const handleTagChange = ()=>{};
 
   const addItem = () => {
     const newItem: Item = {
       id: Date.now().toString(),
       details: '',
-      cost: ''
+      cost: '' , 
+      tags: []
     };
     setItems([...items, newItem]);
   };
@@ -64,22 +66,24 @@ const AddReceiptForm = ({ tags }: Props) => {
                     Remove
                   </button>
 <p className="text-start">Item</p>
-<div className='flex text-xs gap-2'>
-  {tags.map((tag , index)=>(<div key={tag.id} >
-    <input
-        type="checkbox"
-        name="tags"
-        value={tag.id}
-        id={`tag-${index}`}
-        className="cursor-pointer"
-      />
-      <label htmlFor={`tag-${index}`} className="cursor-pointer">
-        {tag.icon} {tag.name}
-      </label>
-
-    </div>))}
-
-</div>
+ <div className='flex text-xs gap-2 flex-wrap mb-2'>
+              {tags.map((tag) => (
+                <div key={tag.id} className="flex items-center gap-1">
+                  <input
+                    type="checkbox"
+                    name={`items[${index}][tags]`} 
+                    value={tag.id.toString()} // Fixed: Use tag.id as value
+                    id={`item-${index}-tag-${tag.id}`} // Fixed: Unique ID
+                    // checked={isTagSelected(index, tag.id)}
+                    // onChange={(e) => handleTagChange(index, tag, e.target.checked)}
+                    className="cursor-pointer"
+                  />
+                  <label htmlFor={`item-${index}-tag-${tag.id}`} className="cursor-pointer">
+                    {tag.icon} {tag.name}
+                  </label>
+                </div>
+              ))}
+            </div>
 <div className='flex'>
 <div>
             <p className="text-start">details</p>

@@ -25,7 +25,7 @@ const receiptSchema = z.object({
 
 
 export async  function addReceipt(prevState: any,formData: FormData){
-  const headline = formData.get("headline");
+const headline = formData.get("headline");
 const items: { cost: number; details: string }[] = [];
   let index = 0;
   while (true) {
