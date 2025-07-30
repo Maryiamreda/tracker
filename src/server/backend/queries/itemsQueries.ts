@@ -11,7 +11,7 @@ export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {
     for (const item of receiptItems) {
         const [newItem] = await db.insert(schema.receiptItemsTable)
         .values({
-          cost: item.cost,//
+          cost: item.cost,//error here 
           details: item.details,
           receiptId: receiptId
         })

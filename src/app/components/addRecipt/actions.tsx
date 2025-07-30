@@ -1,6 +1,6 @@
 "use server";
 
-import { Tag } from "@/app/types";
+import { ReceiptData, Tag } from "@/app/types";
 import { getUserFromSession } from "@/lib/session";
 import { addNewReceipt } from "@/server/backend/queries/receiptsQueries";
 import { redirect } from "next/navigation";
@@ -60,6 +60,7 @@ export async function addReceipt(prevState: any, formData: FormData) {
 console.log(items)
 
   const parsedData = receiptSchema.safeParse({ headline, items });
+  console.log(parsedData)
   if (!parsedData.success) {
     return { error: parsedData.error.format() };
   }
@@ -70,7 +71,18 @@ console.log(items)
       return { error: "User not authenticated" };
     }
 
-    const response = await addNewReceipt(parsedData.data, user.userId);//
+// Transform the parsed data to match ReceiptData interface
+    const receiptData: ReceiptData = {
+      headline: parsedData.data.headline,
+      items: parsedData.data.items.map(item => ({
+        details: item.details,
+        cost: item.cost,
+        tags: item.tags || []
+      }))
+    };
+
+
+    const response = await addNewReceipt(receiptData, user.userId);//error here 
     return { success: true, data: response.data };
   } catch {
     return { error: "Server error. Please try again." };
