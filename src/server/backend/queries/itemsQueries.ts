@@ -2,7 +2,7 @@ import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { addTagAndLinkToItem, getItemTags } from "./tagsQueries";
-import { Item, Tag } from "@/app/types/types";
+import { DatabaseItem, Item, Tag } from "@/app/types/types";
 
 
 
@@ -30,7 +30,7 @@ export async function getReceiptItems(receiptId: number) {
       .leftJoin(schema.tagsTable,eq(schema.tagsTable.id,schema.itemsToTagsTable.tagId)) //we match them to get their responsive tags ? 
 .where(eq(schema.receiptItemsTable.receiptId,receiptId)); // then we execulde only who have the parent reciept
 
-const items: any[] = []; // i should use map here will come back later 
+const items: DatabaseItem[]= []; // i should use map here will come back later 
 
 receiptItems.forEach(receiptItem => {
       // Find existing item or create new one
