@@ -1,6 +1,6 @@
 "use server";
 
-import { ReceiptData, Tag } from "@/app/types/types";
+import { Item, ReceiptData, Tag } from "@/app/types/types";
 import { getUserFromSession } from "@/lib/session";
 import { addNewReceipt } from "@/server/backend/queries/receiptsQueries";
 import { redirect } from "next/navigation";
@@ -26,9 +26,9 @@ const receiptSchema = z.object({
 
 
 export async function addReceipt(prevState: any, formData: FormData) {
-  console.log("form data",formData);
+  
   const headline = formData.get("headline");
-  const items: { cost: number; details: string; tags: number[] }[] = [];
+  const items: Item[] = [];
 
   let index = 0;
   while (true) {
@@ -37,7 +37,7 @@ export async function addReceipt(prevState: any, formData: FormData) {
 
     if (details === null && cost === null) break;
 
-    if (typeof details === "string" && typeof cost === "string") {
+    if (typeof details === "string" && typeof cost === "string") { //why it work when cost is string while i specified that it has type number
       // Get all tags for this item
       const tags: number[] = [];
 
@@ -57,12 +57,10 @@ export async function addReceipt(prevState: any, formData: FormData) {
 
     index++;
   }
-console.log(items)
 
   const parsedData = receiptSchema.safeParse({ headline, items });
-  console.log(parsedData)
   if (!parsedData.success) {
-    return { error: parsedData.error.format() };
+    return { error: parsedData.error.format() }; //error handling here 
   }
 
   try {
@@ -82,7 +80,7 @@ console.log(items)
     };
 
 
-    const response = await addNewReceipt(receiptData, user.userId);//error here 
+    const response = await addNewReceipt(receiptData, user.userId);
     return { success: true, data: response.data };
   } catch {
     return { error: "Server error. Please try again." };

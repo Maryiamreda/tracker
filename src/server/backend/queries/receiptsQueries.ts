@@ -23,6 +23,7 @@ try{
 if (typeof userId === "undefined") {
   return { error: "User not authenticated" };
 }
+
 const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
         ownerId: userId

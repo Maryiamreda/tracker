@@ -7,22 +7,24 @@ import { Item, Tag } from "@/app/types/types";
 
 export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {
   try {
-        const insertedItems = [];
+    const insertedItems = [];
     for (const item of receiptItems) {
         const [newItem] = await db.insert(schema.receiptItemsTable)
         .values({
-          cost: item.cost,//error here 
+          cost: item.cost,
           details: item.details,
           receiptId: receiptId
         })
         .returning();
         insertedItems.push(newItem);
 
-       for (const tagId of item.tags) {
-  await db.insert(schema.itemsToTagsTable).values({
-    itemId: newItem.id,
-    tagId: tagId
-  });
+    for (const tagId of item.tags) {
+      console.log("tag adding in item query",tagId)
+      // await addTagAndLinkToItem(tagId ,itemId);
+      await db.insert(schema.itemsToTagsTable).values({
+       itemId: newItem.id,
+       tagId: tagId
+        });
 }
 
     }
