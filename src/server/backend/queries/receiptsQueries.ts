@@ -19,7 +19,7 @@ import { getUserFromSession } from "@/lib/session";
     receiptsAndItems.push({headline: receipt.headline, items});
 }
 
-        return receiptsAndItems;
+        return {data:receiptsAndItems};
     
     }catch(err){
         console.error("Error fetching user receipts:", err);
