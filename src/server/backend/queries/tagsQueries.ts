@@ -1,4 +1,4 @@
-import { Tag } from "@/app/types";
+import { Tag } from "@/app/types/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq, and, or } from 'drizzle-orm';

@@ -2,7 +2,7 @@
 
 import React, { useActionState, useEffect, useState } from 'react';
 import { addReceipt } from './actions';
-import { Item, Tag } from '@/app/types';
+import { Item, Tag } from '@/app/types/types';
 import { getUserFromSession } from '@/lib/session';
 import { getUserTags } from '@/server/backend/queries/tagsQueries';
 
@@ -12,7 +12,7 @@ type Props = {
 const AddReceiptForm = ({ tags }: Props) => {
   const [state, createreciptaction] = useActionState(addReceipt, undefined); 
  const [items, setItems] = useState<Item[]>([
-    { id: '1', details: '', cost: '' , tags:[] }
+    { id: '1', details: '', cost: 0 , tags:[] }
   ]);
 
 
@@ -25,7 +25,7 @@ const handleTagChange = ()=>{};
     const newItem: Item = {
       id: Date.now().toString(),
       details: '',
-      cost: '' , 
+      cost: 0 , 
       tags: []
     };
     setItems([...items, newItem]);

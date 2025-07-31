@@ -1,4 +1,4 @@
-import { Item, ReceiptData, Tag } from "@/app/types";
+import { Item, ReceiptData, Tag } from "@/app/types/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';

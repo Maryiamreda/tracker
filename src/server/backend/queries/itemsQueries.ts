@@ -2,7 +2,7 @@ import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { addTagAndLinkToItem } from "./tagsQueries";
-import { Item, Tag } from "@/app/types";
+import { Item, Tag } from "@/app/types/types";
 
 
 export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {

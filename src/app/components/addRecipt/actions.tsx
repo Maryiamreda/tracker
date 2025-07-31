@@ -1,6 +1,6 @@
 "use server";
 
-import { ReceiptData, Tag } from "@/app/types";
+import { ReceiptData, Tag } from "@/app/types/types";
 import { getUserFromSession } from "@/lib/session";
 import { addNewReceipt } from "@/server/backend/queries/receiptsQueries";
 import { redirect } from "next/navigation";
