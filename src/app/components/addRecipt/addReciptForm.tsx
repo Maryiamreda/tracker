@@ -1,28 +1,20 @@
 "use client";
 
-import React, { useActionState, useEffect, useState } from 'react';
+import React, { useActionState, useState } from 'react';
 import { addReceipt } from './actions';
 import { Item, Tag } from '@/app/types/types';
-import { getUserFromSession } from '@/lib/session';
-import { getUserTags } from '@/server/backend/queries/tagsQueries';
 
 type Props = {
   tags: Tag[];
 };
 const AddReceiptForm = ({ tags }: Props) => {
   const [state, createreciptaction] = useActionState(addReceipt, undefined); 
- const [items, setItems] = useState<Item[]>([
+ const [items, setItems] = useState([
     { id: '1', details: '', cost: 0 , tags:[] }
   ]);
 
-
-
-
-
-const handleTagChange = ()=>{};
-
   const addItem = () => {
-    const newItem: Item = {
+    const newItem = {
       id: Date.now().toString(),
       details: '',
       cost: 0 , 
@@ -72,10 +64,9 @@ const handleTagChange = ()=>{};
                   <input
                     type="checkbox"
                     name={`items[${index}][tags]`} 
-                    value={tag.id.toString()} // Fixed: Use tag.id as value
-                    id={`item-${index}-tag-${tag.id}`} // Fixed: Unique ID
-                    // checked={isTagSelected(index, tag.id)}
-                    // onChange={(e) => handleTagChange(index, tag, e.target.checked)}
+                    value={tag.id.toString()} // tag.id as value
+                    id={`item-${index}-tag-${tag.id}`} //unique ID
+                
                     className="cursor-pointer"
                   />
                   <label htmlFor={`item-${index}-tag-${tag.id}`} className="cursor-pointer">

@@ -1,5 +1,5 @@
 export interface Item {
-  id: string;
+  // id: string;
   details: string;
   cost: number; // Keep as string for form handling
   tags: number[];  
