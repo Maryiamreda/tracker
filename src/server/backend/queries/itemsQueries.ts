@@ -8,70 +8,63 @@ import { Item, Tag } from "@/app/types/types";
 
 
 
-// export async function getReceiptItems(receiptId: number) {
-//   try{
-// const items:Item[]=[]
-// const receiptItems=await db.select().from(schema.receiptItemsTable).where(eq(schema.receiptItemsTable.receiptId,receiptId));
-// for( const item of receiptItems ){
-
-// }
-
-
-
-//   }catch(err){
-//      console.error("Error inserting receipt items:", err);
-//     throw err;
-//   }
-
-// }
-
 export async function getReceiptItems(receiptId: number) {
-  try {
-    const results = await db
-      .select({
-        itemId: schema.receiptItemsTable.id,
-        details: schema.receiptItemsTable.details,
-        cost: schema.receiptItemsTable.cost,
+  try{
+
+const receiptItems=await db.select(
+{
+  itemId: schema.receiptItemsTable.id,
+        itemDetails: schema.receiptItemsTable.details,
+        itemCost: schema.receiptItemsTable.cost,
         tagId: schema.tagsTable.id,
         tagName: schema.tagsTable.name,
-        isEssential: schema.tagsTable.isEssential,
-      })
-      .from(schema.receiptItemsTable)
-      .leftJoin(schema.itemsToTagsTable, eq(schema.itemsToTagsTable.itemId, schema.receiptItemsTable.itemId))
-      .leftJoin(schema.tagsTable, eq(schema.tagsTable.id, schema.itemsToTagsTable.tagId))
-      .where(eq(schema.receiptItemsTable.receiptId, receiptId));
+        tagIcon: schema.tagsTable.icon,
+}
 
-    // Grouping items with their tags
-    const itemMap = new Map<number>();
 
-    for (const row of results) {
-      if (!itemMap.has(row.itemId)) {
-        itemMap.set(row.itemId, {
-          id: row.itemId.toString(),
-          details: row.details,
-          cost: row.cost,
-          tags: [],
-        });
+ 
+).from(schema.receiptItemsTable)
+ .leftJoin(
+        schema.itemsToTagsTable, 
+        eq(schema.receiptItemsTable.id, schema.itemsToTagsTable.itemId) //we get all items exist in the itemsToTagsTable table
+      )
+      .leftJoin(schema.tagsTable,eq(schema.tagsTable.id,schema.itemsToTagsTable.tagId)) //we match them to get their respomeive tags ? 
+.where(eq(schema.receiptItemsTable.receiptId,receiptId)); // then we execulde only who have the parent reciept
+
+
+    const items: any[] = []; // i should use map here will come back later 
+receiptItems.forEach(row => {
+      // Find existing item or create new one
+      let existingItem = items.find(item => item.id === row.itemId);
+      if (!existingItem) {
+        existingItem = {
+          id: row.itemId,
+          details: row.itemDetails,
+          cost: row.itemCost,
+          tags: []
+        };
+        items.push(existingItem);
       }
-
+      
+      // Add tag if it exists
       if (row.tagId) {
-        itemMap.get(row.itemId)?.tags.push({
+        existingItem.tags.push({
           id: row.tagId,
           name: row.tagName,
-          isEssential: row.isEssential,
-          ownerId: null, // set if needed
-          created_at: new Date(), // dummy value if needed
+          icon: row.tagIcon
         });
       }
-    }
+    });
 
-    return Array.from(itemMap.values());
+    return items;
 
-  } catch (err) {
-    console.error("Error fetching receipt items with tags:", err);
-    return [];
+  }catch(err){
+     console.error("Error inserting receipt items:", err);
+    throw err;
   }
+
 }
+
 
 
 export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {

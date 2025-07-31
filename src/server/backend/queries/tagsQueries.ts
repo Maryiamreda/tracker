@@ -7,8 +7,7 @@ import { eq, and, or } from 'drizzle-orm';
 
 export async function getUserTags(UserId: number){
 try{
-      const tags = await db.select()
-            .from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) ,     eq(schema.tagsTable.isEssential, true)
+      const tags = await db.select().from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) , eq(schema.tagsTable.isEssential, true)
  ) );
  console.log(tags);
             return{
@@ -20,24 +19,28 @@ try{
 }
 }
 
-
-
-
-export async function getItemTags(itemId: number){
-try{
-let itemtags =[]
-const tags=await db.select().from(schema.itemsToTagsTable).where(eq(schema.itemsToTagsTable.itemId,itemId));
-for(const tag of tags){
-let itemTag=await db.select().from(schema.tagsTable).where(eq(schema.tagsTable.id,tag.tagId))
-itemtags.push(itemTag)
-}
-return itemtags;
-  }catch(error){
-    console.error("Error fetching  item tags:", error);
-    return { data:[], error: "Failed to fetch item tags" };
+export async function getItemTags(itemId: number) {
+  try {
+    // Single query with JOIN instead of multiple queries
+    const itemTags = await db
+      .select({
+        id: schema.tagsTable.id,
+        name: schema.tagsTable.name,
+        icon: schema.tagsTable.icon,
+      })
+      .from(schema.itemsToTagsTable)
+      .innerJoin(
+        schema.tagsTable, 
+        eq(schema.itemsToTagsTable.tagId, schema.tagsTable.id)
+      )
+      .where(eq(schema.itemsToTagsTable.itemId, itemId));
+      
+    return itemTags;
+  } catch (error) {
+    console.error("Error fetching item tags:", error);
+    return [];
   }
 }
-
 
 
 export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
