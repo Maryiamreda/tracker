@@ -6,12 +6,8 @@ import Tags from '../tags/Tags';
 
 const SideBar = async () => {
 
-const user = await getUserFromSession();
 
-if (!user?.userId) {
-    return <div>Please log in</div>;
-}
-  const { data: tagList } = await getUserTags(user.userId); 
+  const { data: tagList } = await getUserTags(); 
   return <AddReceiptForm tags={tagList} />; 
 
 };
