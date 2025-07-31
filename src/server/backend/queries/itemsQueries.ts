@@ -16,6 +16,8 @@ export async function getReceiptItems(receiptId: number) {
   itemId: schema.receiptItemsTable.id,
         itemDetails: schema.receiptItemsTable.details,
         itemCost: schema.receiptItemsTable.cost,
+        itemReciept: schema.receiptItemsTable.receiptId,
+
         tagId: schema.tagsTable.id,
         tagName: schema.tagsTable.name,
         tagIcon: schema.tagsTable.icon,
@@ -36,6 +38,8 @@ receiptItems.forEach(receiptItem => {
       if (!existingItem) {
         existingItem = {
           id: receiptItem.itemId,
+        receiptId: receiptItem.itemReciept,
+
           details: receiptItem.itemDetails,
           cost: receiptItem.itemCost,
           tags: []
@@ -52,7 +56,7 @@ receiptItems.forEach(receiptItem => {
         });
       }
     });
-console.log(items , items[0].tags[0].name)
+// console.log(items , items[0].tags[0].name)
     return items;
 
   }catch(err){

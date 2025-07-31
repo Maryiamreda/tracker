@@ -2,7 +2,7 @@ import { Item, ReceiptData, Tag } from "@/app/types/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-import { addReceiptItems } from "./itemsQueries";
+import { addReceiptItems, getReceiptItems } from "./itemsQueries";
 import { getUserFromSession } from "@/lib/session";
 
 
@@ -13,7 +13,13 @@ import { getUserFromSession } from "@/lib/session";
          const UserId=user?.userId;
         const receipts = await db.select()
         .from(schema.receiptTable).where(eq(schema.receiptTable.ownerId, UserId));
-        return receipts;
+       const receiptsAndItems = [];
+      for (const receipt of receipts) {
+    const items = await getReceiptItems(receipt.id);
+    receiptsAndItems.push({headline: receipt.headline, items});
+}
+
+        return receiptsAndItems;
     
     }catch(err){
         console.error("Error fetching user receipts:", err);
