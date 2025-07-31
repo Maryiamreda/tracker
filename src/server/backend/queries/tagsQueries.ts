@@ -2,11 +2,20 @@ import { Tag } from "@/app/types/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq, and, or } from 'drizzle-orm';
+import { getUserFromSession } from "@/lib/session";
 
 
 
-export async function getUserTags(UserId: number){
+export async function getUserTags(){
 try{
+  
+  const user = await getUserFromSession();
+  
+  if (!user?.userId) {
+      return
+  }
+  let UserId=user?.userId;
+
       const tags = await db.select().from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) , eq(schema.tagsTable.isEssential, true)
  ) );
  console.log(tags);
