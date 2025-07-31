@@ -2,7 +2,7 @@
 
 import React, { useActionState, useState } from 'react';
 import { addReceipt } from './actions';
-import { Item, Tag } from '@/app/types/types';
+import {  Tag } from '@/app/types/types';
 
 type Props = {
   tags: Tag[];

@@ -21,6 +21,25 @@ try{
 }
 
 
+
+
+export async function getItemTags(itemId: number){
+try{
+let itemtags =[]
+const tags=await db.select().from(schema.itemsToTagsTable).where(eq(schema.itemsToTagsTable.itemId,itemId));
+for(const tag of tags){
+let itemTag=await db.select().from(schema.tagsTable).where(eq(schema.tagsTable.id,tag.tagId))
+itemtags.push(itemTag)
+}
+return itemtags;
+  }catch(error){
+    console.error("Error fetching  item tags:", error);
+    return { data:[], error: "Failed to fetch item tags" };
+  }
+}
+
+
+
 export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
   try{
     if (typeof itemId === "undefined") {

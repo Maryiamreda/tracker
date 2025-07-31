@@ -3,10 +3,14 @@ import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
 import { addReceiptItems } from "./itemsQueries";
+import { getUserFromSession } from "@/lib/session";
 
 
- async function getUserReceipts(UserId: number){
+ async function getUserReceipts(){
     try{
+       const user = await getUserFromSession();
+        if (!user?.userId)   return { error: "User not authenticated" };
+         const UserId=user?.userId;
         const receipts = await db.select()
         .from(schema.receiptTable).where(eq(schema.receiptTable.ownerId, UserId));
         return receipts;
