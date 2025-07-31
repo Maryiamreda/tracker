@@ -11,7 +11,7 @@ import { Item, Tag } from "@/app/types/types";
 export async function getReceiptItems(receiptId: number) {
   try{
 
-const receiptItems=await db.select(
+   const receiptItems=await db.select(
 {
   itemId: schema.receiptItemsTable.id,
         itemDetails: schema.receiptItemsTable.details,
@@ -19,43 +19,40 @@ const receiptItems=await db.select(
         tagId: schema.tagsTable.id,
         tagName: schema.tagsTable.name,
         tagIcon: schema.tagsTable.icon,
-}
-
-
- 
+} 
 ).from(schema.receiptItemsTable)
  .leftJoin(
         schema.itemsToTagsTable, 
         eq(schema.receiptItemsTable.id, schema.itemsToTagsTable.itemId) //we get all items exist in the itemsToTagsTable table
       )
-      .leftJoin(schema.tagsTable,eq(schema.tagsTable.id,schema.itemsToTagsTable.tagId)) //we match them to get their respomeive tags ? 
+      .leftJoin(schema.tagsTable,eq(schema.tagsTable.id,schema.itemsToTagsTable.tagId)) //we match them to get their responsive tags ? 
 .where(eq(schema.receiptItemsTable.receiptId,receiptId)); // then we execulde only who have the parent reciept
 
+const items: any[] = []; // i should use map here will come back later 
 
-    const items: any[] = []; // i should use map here will come back later 
-receiptItems.forEach(row => {
+receiptItems.forEach(receiptItem => {
       // Find existing item or create new one
-      let existingItem = items.find(item => item.id === row.itemId);
+      let existingItem = items.find(item => item.id === receiptItem.itemId);
       if (!existingItem) {
         existingItem = {
-          id: row.itemId,
-          details: row.itemDetails,
-          cost: row.itemCost,
+          id: receiptItem.itemId,
+          details: receiptItem.itemDetails,
+          cost: receiptItem.itemCost,
           tags: []
         };
         items.push(existingItem);
       }
       
       // Add tag if it exists
-      if (row.tagId) {
+      if (receiptItem.tagId) {
         existingItem.tags.push({
-          id: row.tagId,
-          name: row.tagName,
-          icon: row.tagIcon
+          id: receiptItem.tagId,
+          name: receiptItem.tagName,
+          icon: receiptItem.tagIcon
         });
       }
     });
-
+console.log(items , items[0].tags[0].name)
     return items;
 
   }catch(err){
