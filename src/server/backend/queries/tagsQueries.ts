@@ -62,7 +62,7 @@ try {
 let UserId=user?.userId;
  const existingTagId = await tagExist(tag);
     if (existingTagId) 
-      return { data: existingTagId };
+      return { error:'tag already exists ' };
     
 const newTag = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:UserId}).returning();
 if (itemId !== undefined)
@@ -91,7 +91,8 @@ export async function tagExist(tag: Tag) {
       .where(
         and(
           eq(schema.tagsTable.name, tag.name),
-          eq(schema.tagsTable.ownerId, UserId)
+          or(eq(schema.tagsTable.ownerId, UserId),eq(schema.tagsTable.isEssential, true))
+          
         )
       );
 
