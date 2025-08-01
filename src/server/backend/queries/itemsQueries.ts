@@ -1,7 +1,7 @@
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-import { addTagAndLinkToItem, getItemTags } from "./tagsQueries";
+import {  getItemTags } from "./tagsQueries";
 import { DatabaseItem, Item, Tag } from "@/app/types/types";
 
 

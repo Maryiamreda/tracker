@@ -4,13 +4,13 @@ import * as schema from '../db/schema';
 import { eq, and, or } from 'drizzle-orm';
 import { getUserFromSession } from "@/lib/session";
 
-
+ 
+  
 
 export async function getUserTags(){
 try{
-  
-  const user = await getUserFromSession();
-  
+   const user = await getUserFromSession();
+
   if (!user?.userId) {
        return { data: [], error: "User not found" }; 
   }
@@ -18,7 +18,7 @@ try{
 
       const tags = await db.select().from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) , eq(schema.tagsTable.isEssential, true)
  ) );
- console.log(tags);
+ console.log(tags)
             return{
               data:tags
             }
@@ -52,53 +52,46 @@ export async function getItemTags(itemId: number) {
 }
 
 
-export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
-  try{
-    if (typeof itemId === "undefined") {
-      throw new Error("itemId is required to link tag to item");
-     }
-     const tagResult = await addTag(tag , itemId); 
-    if (!tagResult.data) {
-      throw new Error("Failed to add or retrieve tag");
-     }
-    
-    const tagId = tagResult.data; 
-  
-  await db.insert(schema.itemsToTagsTable).values({
-      itemId,
-      tagId
-    });
-  }catch{}
-}
-
 export async function addTag(tag: Tag, itemId: number  | undefined) {
 try {
- const existingTagId = await tagExist(tag, itemId);
+   const user = await getUserFromSession();
+
+  if (!user?.userId) {
+       return { data: [], error: "User not found" }; 
+  }
+let UserId=user?.userId;
+ const existingTagId = await tagExist(tag);
     if (existingTagId) 
       return { data: existingTagId };
     
-    const newTag = await db.insert(schema.tagsTable).values(tag).returning();
-    
-    return { data: newTag[0].id };
+const newTag = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:UserId}).returning();
+if (itemId !== undefined)
+      try{
+     await  linkTagToItem(newTag[0].id,itemId)
+    }catch{} 
+    console.log(newTag[0])
+    return { data: newTag[0]};
   } catch (error) {
     console.error("Error Adding tag:", error);
     return { error: "Failed to add tag" };
   }
 }
 
-
-
-export async function tagExist(tag: Tag, itemId: number  | undefined) {
+export async function tagExist(tag: Tag) {
   try{
-  if (typeof itemId === 'undefined') {
-  throw new Error("Tag must have a valid ownerId to check for duplicates.");
-}
+   const user = await getUserFromSession();
+
+  if (!user?.userId) {
+       return { data: [], error: "User not found" }; 
+  }
+    let UserId=user?.userId;
+
     const existingTag = await db.select()
       .from(schema.tagsTable)
       .where(
         and(
           eq(schema.tagsTable.name, tag.name),
-          eq(schema.tagsTable.ownerId, itemId)
+          eq(schema.tagsTable.ownerId, UserId)
         )
       );
 
@@ -109,3 +102,17 @@ export async function tagExist(tag: Tag, itemId: number  | undefined) {
     return null;
   }
 }
+
+
+
+export async function linkTagToItem(tagId: number, itemId: number) {
+  try{
+  await db.insert(schema.itemsToTagsTable).values({
+      itemId,
+      tagId
+    });
+  }catch(error){
+    return error
+  }
+}
+
