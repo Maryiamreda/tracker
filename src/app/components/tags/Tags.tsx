@@ -9,7 +9,7 @@ const user = await getUserFromSession();
     return <div>Please log in</div>;
   }
 
-  const tags = await getUserTags(user.userId);
+  const tags = await getUserTags();
   return (
     <div>
      

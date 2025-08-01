@@ -82,7 +82,6 @@ export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {
         insertedItems.push(newItem);
 
     for (const tagId of item.tags) {
-      console.log("tag adding in item query",tagId)
       // await addTagAndLinkToItem(tagId ,itemId);
       await db.insert(schema.itemsToTagsTable).values({
        itemId: newItem.id,

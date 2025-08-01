@@ -12,7 +12,7 @@ try{
   const user = await getUserFromSession();
   
   if (!user?.userId) {
-      return
+       return { data: [], error: "User not found" }; 
   }
   let UserId=user?.userId;
 

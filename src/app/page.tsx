@@ -7,6 +7,7 @@ import { getUserReceipts } from "@/server/backend/queries/receiptsQueries";
 import { getReceiptItems } from "@/server/backend/queries/itemsQueries";
 import ReciptComponent from "./components/reciptsWrapper/reciptComponent";
 import AddReceiptForm from "./components/addRecipt/addReciptForm";
+import AddTag from "./components/tags/AddTagForm";
 export default async  function Home() {
 ////  className={styles.page}
 
@@ -15,6 +16,7 @@ return (
  >
   <SideBar/>
  <ReciptComponent/>
+ <AddTag/>
 
 </div>
   );

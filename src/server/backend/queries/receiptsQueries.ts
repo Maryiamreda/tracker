@@ -43,6 +43,8 @@ const newReceipt = await db.insert(schema.receiptTable).values({
 
 const receiptId = newReceipt[0].id;
 const newItems = await addReceiptItems(receiptId, receiptData.items);
+
+
     return {
         success: true,
      data: {
