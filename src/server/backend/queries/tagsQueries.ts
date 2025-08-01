@@ -5,6 +5,16 @@ import { eq, and, or } from 'drizzle-orm';
 import { getUserFromSession } from "@/lib/session";
 
  
+
+// async function getAuthenticatedUserId(){
+//    const user = await getUserFromSession();
+
+//   if (!user?.userId) {
+//        return { undefined }; 
+//   }
+//   let userId=user?.userId;
+//   return userId
+// }
   
 
 export async function getUserTags(){
@@ -60,24 +70,24 @@ try {
        return { data: [], error: "User not found" }; 
   }
 let UserId=user?.userId;
- const existingTagId = await tagExist(tag);
+ const existingTagId = await tagExists(tag);
     if (existingTagId) 
       return { error:'tag already exists ' };
     
-const newTag = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:UserId}).returning();
+const [newTag] = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:UserId}).returning();
 if (itemId !== undefined)
-      try{
-     await  linkTagToItem(newTag[0].id,itemId)
-    }catch{} 
-    console.log(newTag[0])
-    return { data: newTag[0]};
+{       const linkResult = await linkTagToItem(newTag.id,itemId);
+  
+}  
+    console.log(newTag)
+    return { data: newTag};
   } catch (error) {
     console.error("Error Adding tag:", error);
     return { error: "Failed to add tag" };
   }
 }
 
-export async function tagExist(tag: Tag) {
+ async function tagExists(tag: Tag) {
   try{
    const user = await getUserFromSession();
 
@@ -86,7 +96,7 @@ export async function tagExist(tag: Tag) {
   }
     let UserId=user?.userId;
 
-    const existingTag = await db.select()
+    const [existingTag] = await db.select()
       .from(schema.tagsTable)
       .where(
         and(
@@ -94,10 +104,10 @@ export async function tagExist(tag: Tag) {
           or(eq(schema.tagsTable.ownerId, UserId),eq(schema.tagsTable.isEssential, true))
           
         )
-      );
+      ).limit(1);
 
- if (existingTag.length > 0) return existingTag[0].id;   
- return null;
+     return existingTag || null;
+
   }catch(error){
     console.error("Error checking if tag exists:", error);
     return null;
