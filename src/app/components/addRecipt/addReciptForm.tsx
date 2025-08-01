@@ -117,7 +117,7 @@ const AddReceiptForm = ({ tags }: Props) => {
 
 <button
   type="submit"
-  className="bg-blue-500 text-white rounded p-2 w-full hover:bg-blue-600 transition"
+  className="bg-green-950 text-white rounded p-2  transition"
 >
   Save Receipt
 </button>

@@ -15,7 +15,7 @@ export interface DatabaseItem {
 
 export interface Tag {
   id: number;
-  name: string | null;
+  name: string  ;
   icon?: string | null;
   isEssential?: boolean;
   ownerId?: number | null;

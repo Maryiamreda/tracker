@@ -60,7 +60,7 @@ export async function addTagAndLinkToItem(tag: Tag, itemId?: number) {
      const tagResult = await addTag(tag , itemId); 
     if (!tagResult.data) {
       throw new Error("Failed to add or retrieve tag");
-      }
+     }
     
     const tagId = tagResult.data; 
   

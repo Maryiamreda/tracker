@@ -48,7 +48,7 @@ receiptItems.forEach(receiptItem => {
       }
       
       // Add tag if it exists
-      if (receiptItem.tagId) {
+      if (receiptItem.tagId && receiptItem.tagName) {
         existingItem.tags.push({
           id: receiptItem.tagId,
           name: receiptItem.tagName,
