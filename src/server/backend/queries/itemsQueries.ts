@@ -1,10 +1,7 @@
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-import { DatabaseItem, Item, Tag } from "@/app/types/types";
-
-
-
+import { DatabaseItem, Item } from "@/app/types/types";
 
 
 export async function getReceiptItems(receiptId: number) {
@@ -56,11 +53,11 @@ receiptItems.forEach(receiptItem => {
       }
     });
 // console.log(items , items[0].tags[0].name)
-    return items;
+    return {data:items};
 
-  }catch(err){
-     console.error("Error inserting receipt items:", err);
-    throw err;
+  }catch(error){
+     console.error("Error fetching receipt items:", error);
+    return { error: "Failed to fetch receipt items" };
   }
 
 }
@@ -89,8 +86,10 @@ export async function addReceiptItems(receiptId: number, receiptItems: Item[]) {
 }
 
     }
+
+ return {data:insertedItems}   
   } catch (err) {
     console.error("Error inserting receipt items:", err);
-    throw err;
+    return { error: "Failed to fetch receipt items" };
   }
 }

@@ -23,7 +23,7 @@ import { getUserFromSession } from "@/lib/session";
     
     }catch(err){
         console.error("Error fetching user receipts:", err);
-        throw err;
+    return { error: "Error fetching user receipts" };
     }
  }
 
@@ -53,8 +53,8 @@ const newItems = await addReceiptItems(receiptId, receiptData.items);
             }
             };
 }catch(err){
-    console.error("Error fetching user receipts:", err);
-    throw err;
+    console.error("Error adding new receipt:", err);
+    return { error: "Error adding new receipt" };
 }
 }
 
