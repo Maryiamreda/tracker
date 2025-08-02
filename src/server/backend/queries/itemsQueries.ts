@@ -1,7 +1,6 @@
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
-import {  getItemTags } from "./tagsQueries";
 import { DatabaseItem, Item, Tag } from "@/app/types/types";
 
 
@@ -11,7 +10,7 @@ import { DatabaseItem, Item, Tag } from "@/app/types/types";
 export async function getReceiptItems(receiptId: number) {
   try{
 
-   const receiptItems=await db.select(
+const receiptItems=await db.select(
 {
   itemId: schema.receiptItemsTable.id,
         itemDetails: schema.receiptItemsTable.details,

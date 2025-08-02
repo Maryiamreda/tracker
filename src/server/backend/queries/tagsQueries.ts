@@ -22,44 +22,43 @@ try{
    const user = await getUserFromSession();
 
   if (!user?.userId) {
-       return { data: [], error: "User not found" }; 
+       return { error: "User not found" }; 
   }
-  let UserId=user?.userId;
+  let userId=user?.userId;
 
-      const tags = await db.select().from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, UserId) , eq(schema.tagsTable.isEssential, true)
+      const tags = await db.select().from(schema.tagsTable).where( or(eq(schema.tagsTable.ownerId, userId) , eq(schema.tagsTable.isEssential, true)
  ) );
- console.log(tags)
             return{
               data:tags
             }
 }catch(error){
     console.error("Error fetching tags:", error);
-    return { data:[], error: "Failed to fetch tags" };
+    return { error: "Failed to fetch tags" };
 }
 }
 
-export async function getItemTags(itemId: number) {
-  try {
-    // Single query with JOIN instead of multiple queries
-    const itemTags = await db
-      .select({
-        id: schema.tagsTable.id,
-        name: schema.tagsTable.name,
-        icon: schema.tagsTable.icon,
-      })
-      .from(schema.itemsToTagsTable)
-      .innerJoin(
-        schema.tagsTable, 
-        eq(schema.itemsToTagsTable.tagId, schema.tagsTable.id)
-      )
-      .where(eq(schema.itemsToTagsTable.itemId, itemId));
+// export async function getItemTags(itemId: number) {
+//   try {
+//     // Single query with JOIN instead of multiple queries
+//     const itemTags = await db
+//       .select({
+//         id: schema.tagsTable.id,
+//         name: schema.tagsTable.name,
+//         icon: schema.tagsTable.icon,
+//       })
+//       .from(schema.itemsToTagsTable)
+//       .innerJoin(
+//         schema.tagsTable, 
+//         eq(schema.itemsToTagsTable.tagId, schema.tagsTable.id)
+//       )
+//       .where(eq(schema.itemsToTagsTable.itemId, itemId));
       
-    return itemTags;
-  } catch (error) {
-    console.error("Error fetching item tags:", error);
-    return [];
-  }
-}
+// return { data: itemTags };
+//   } catch (error) {
+//     console.error("Error fetching item tags:", error);
+//     return { error: "Failed to fetch item tags" };
+//   }
+// }
 
 
 export async function addTag(tag: Tag, itemId: number  | undefined) {
@@ -67,46 +66,44 @@ try {
    const user = await getUserFromSession();
 
   if (!user?.userId) {
-       return { data: [], error: "User not found" }; 
+       return {  error: "User not found" }; 
   }
-let UserId=user?.userId;
- const existingTagId = await tagExists(tag);
+let userId=user?.userId;
+ const existingTagId = await tagExists(tag , userId);
     if (existingTagId) 
       return { error:'tag already exists ' };
     
-const [newTag] = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:UserId}).returning();
+const [newTag] = await db.insert(schema.tagsTable).values({name:tag.name , icon:tag.icon , isEssential:tag.isEssential , ownerId:userId}).returning();
 if (itemId !== undefined)
-{       const linkResult = await linkTagToItem(newTag.id,itemId);
-  
+{    
+const linkResult = await linkTagToItem(newTag.id, itemId);
+ if (linkResult && typeof linkResult === 'object' && 'error' in linkResult) {
+        // Tag was created but linking failed - log warning but still return success
+        console.warn(`Tag created but failed to link to item ${itemId}:`, linkResult.error);
+      }
 }  
-    console.log(newTag)
-    return { data: newTag};
+ 
+    return  {data:newTag}
   } catch (error) {
     console.error("Error Adding tag:", error);
     return { error: "Failed to add tag" };
   }
 }
 
- async function tagExists(tag: Tag) {
+ async function tagExists(tag: Tag , userId:number) {
   try{
-   const user = await getUserFromSession();
 
-  if (!user?.userId) {
-       return { data: [], error: "User not found" }; 
-  }
-    let UserId=user?.userId;
-
-    const [existingTag] = await db.select()
+    const [existingTag] = await db.select({ id: schema.tagsTable.id })
       .from(schema.tagsTable)
       .where(
         and(
           eq(schema.tagsTable.name, tag.name),
-          or(eq(schema.tagsTable.ownerId, UserId),eq(schema.tagsTable.isEssential, true))
+          or(eq(schema.tagsTable.ownerId, userId),eq(schema.tagsTable.isEssential, true))
           
         )
       ).limit(1);
 
-     return existingTag || null;
+     return existingTag?.id || null;
 
   }catch(error){
     console.error("Error checking if tag exists:", error);
@@ -123,6 +120,7 @@ export async function linkTagToItem(tagId: number, itemId: number) {
       tagId
     });
   }catch(error){
+    console.error("Error linking tag to item:", error);
     return error
   }
 }
