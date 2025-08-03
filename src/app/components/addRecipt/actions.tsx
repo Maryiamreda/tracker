@@ -64,11 +64,7 @@ export async function addReceipt(prevState: any, formData: FormData) {
   }
 
   try {
-    const user = await getUserFromSession();
-    if (!user) {
-      return { error: "User not authenticated" };
-    }
-
+   
 // Transform the parsed data to match ReceiptData interface
     const receiptData: ReceiptData = {
       headline: parsedData.data.headline,
@@ -80,7 +76,7 @@ export async function addReceipt(prevState: any, formData: FormData) {
     };
 
 
-    const response = await addNewReceipt(receiptData, user.userId);
+    const response = await addNewReceipt(receiptData);
     return { success: true, data: response.data };
   } catch {
     return { error: "Server error. Please try again." };

@@ -16,7 +16,7 @@ return (
  >
   <SideBar/>
  <ReciptComponent/>
- <AddTag/>
+ {/* <AddTag/> */}
 
 </div>
   );

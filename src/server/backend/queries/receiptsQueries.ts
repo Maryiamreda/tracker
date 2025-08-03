@@ -28,11 +28,14 @@ import { getUserFromSession } from "@/lib/session";
  }
 
 
-async function addNewReceipt(receiptData: ReceiptData, userId: number | undefined ){
+async function addNewReceipt(receiptData: ReceiptData, ){
 try{
-if (typeof userId === "undefined") {
-  return { error: "User not authenticated" };
-}
+ const user = await getUserFromSession();
+    if (!user) {
+      return { error: "User not authenticated" };
+    }
+  let userId=user?.userId;
+
 const total = receiptData.items.reduce((sum, item) => sum + item.cost, 0);
 const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
