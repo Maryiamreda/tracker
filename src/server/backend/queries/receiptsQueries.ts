@@ -1,4 +1,4 @@
-import { Item, ReceiptData, Tag } from "@/app/types/types";
+import { ReceiptData } from "@/app/types/types";
 import { db } from "..";
 import * as schema from '../db/schema';
 import { eq } from 'drizzle-orm';
@@ -19,10 +19,10 @@ import { getUserFromSession } from "@/lib/session";
     receiptsAndItems.push({headline: receipt.headline, items});
 }
 
-        return {data:receiptsAndItems};
+     return {data:receiptsAndItems};
     
-    }catch(err){
-        console.error("Error fetching user receipts:", err);
+    }catch(error){
+        console.error("Error fetching user receipts:", error);
     return { error: "Error fetching user receipts" };
     }
  }
@@ -47,10 +47,10 @@ const newItems = await addReceiptItems(receiptId, receiptData.items);
 
     return {
         success: true,
-     data: {
+          data: {
                 receipt: newReceipt[0],
                 items: newItems
-            }
+                }
             };
 }catch(err){
     console.error("Error adding new receipt:", err);

@@ -6,17 +6,6 @@ import { getUserFromSession } from "@/lib/session";
 
  
 
-// async function getAuthenticatedUserId(){
-//    const user = await getUserFromSession();
-
-//   if (!user?.userId) {
-//        return { undefined }; 
-//   }
-//   let userId=user?.userId;
-//   return userId
-// }
-  
-
 export async function getUserTags(){
 try{
    const user = await getUserFromSession();
@@ -36,29 +25,6 @@ try{
     return { error: "Failed to fetch tags" };
 }
 }
-
-// export async function getItemTags(itemId: number) {
-//   try {
-//     // Single query with JOIN instead of multiple queries
-//     const itemTags = await db
-//       .select({
-//         id: schema.tagsTable.id,
-//         name: schema.tagsTable.name,
-//         icon: schema.tagsTable.icon,
-//       })
-//       .from(schema.itemsToTagsTable)
-//       .innerJoin(
-//         schema.tagsTable, 
-//         eq(schema.itemsToTagsTable.tagId, schema.tagsTable.id)
-//       )
-//       .where(eq(schema.itemsToTagsTable.itemId, itemId));
-      
-// return { data: itemTags };
-//   } catch (error) {
-//     console.error("Error fetching item tags:", error);
-//     return { error: "Failed to fetch item tags" };
-//   }
-// }
 
 
 export async function addTag(tag: Tag, itemId: number  | undefined) {
@@ -125,3 +91,4 @@ export async function linkTagToItem(tagId: number, itemId: number) {
   }
 }
 
+  

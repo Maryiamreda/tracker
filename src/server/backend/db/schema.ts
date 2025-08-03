@@ -60,6 +60,7 @@ export const tagsTable = pgTable("tags", {
     icon: varchar("icon", { length: 50 }),
     isEssential: boolean("is_essential").default(false).notNull(), // Flag to mark essential tags
     ownerId: integer("owner_id").references(() => usersTable.id),
+    
     ...timestamps
 
 })

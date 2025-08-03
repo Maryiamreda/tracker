@@ -11,7 +11,7 @@ return (
     {receipts.map((receipt , index)=>(
     <div key={index} className='bg-celadon ' >
     <h1>    {receipt.headline}</h1>
-    {receipt.items.map((item , index)=>(
+    {receipt.items.data?.map((item , index)=>(
       <div key={index} >
         <div className='flex'>
           <h1>{item.details}</h1>
