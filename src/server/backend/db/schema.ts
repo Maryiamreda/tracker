@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp, text, date } from "drizzle-orm/pg-core";
+import { integer, pgTable, varchar, json, serial, primaryKey, boolean, timestamp, text, date, index } from "drizzle-orm/pg-core";
 
 // columns.helpers.ts
 const timestamps = {
@@ -27,10 +27,20 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 export const receiptTable = pgTable("receipt", {
     id: serial("id").primaryKey(),
     headline: varchar({}).notNull(),
+        total: integer().notNull(),
+
     ownerId: integer("owner_id").references(() => usersTable.id),
     ...timestamps
 
-})
+},(table) => [
+    index("receipt_date_asc").on(table.created_at.asc()),
+    index("receipt_total_asc").on(table.total.asc()),
+        index("receipt_total_desc").on(table.total.desc()),
+
+
+
+]
+)
 
 
 export const receiptRelations = relations(receiptTable, ({ one , many }) => ({
@@ -85,7 +95,9 @@ export const itemsToTagsTable = pgTable(
             .references(() => tagsTable.id),
     },
     (t) => ({
-        pk: primaryKey({ columns: [t.itemId, t.tagId] })
+        pk: primaryKey({ columns: [t.itemId, t.tagId] }),
+        tagIdx: index("items_to_tags_tag_idx").on(t.tagId),
+
     })
 );
 

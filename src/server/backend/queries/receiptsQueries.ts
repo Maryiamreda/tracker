@@ -33,9 +33,10 @@ try{
 if (typeof userId === "undefined") {
   return { error: "User not authenticated" };
 }
-
+const total = receiptData.items.reduce((sum, item) => sum + item.cost, 0);
 const newReceipt = await db.insert(schema.receiptTable).values({
         headline: receiptData.headline,
+        total:total,
         ownerId: userId
     })
     .returning();
@@ -44,7 +45,8 @@ const newReceipt = await db.insert(schema.receiptTable).values({
 const receiptId = newReceipt[0].id;
 const newItems = await addReceiptItems(receiptId, receiptData.items);
 
-
+console.log( newReceipt[0],
+                newItems)
     return {
         success: true,
           data: {
