@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useActionState, useState } from 'react';
+import React, { useActionState, useEffect, useState } from 'react';
 import { addReceipt } from './actions';
 import {  Tag } from '@/app/types/types';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   tags: Tag[];
@@ -28,8 +29,13 @@ const AddReceiptForm = ({ tags }: Props) => {
       setItems(items.filter(item => item.id !== id));
     }
   };
+const router = useRouter();
+useEffect(() => {
+  if (state?.success) {
+    router.refresh(); // i still get the erorr Property 'refresh' does not exist on type 'SingletonRouter'.ts(2339)
 
-
+  }
+}, [state, router]);
 
   return (
      <form className="flex flex-col items-center " action={createreciptaction}>
